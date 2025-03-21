@@ -367,8 +367,8 @@
       },
       {
         "rule_set": [
-          "geoip-private",
-          "geosite-private"
+          "geosite-private",
+          "geoip-private"
         ],
         "outbound": "🎯 全球直连"
       },

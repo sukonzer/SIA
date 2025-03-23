@@ -11,59 +11,33 @@ INTERFACE=$(ip route show default | awk '/default/ {print $5; exit}')
 ReservedIP4='{ 127.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 198.51.100.0/24, 192.88.99.0/24, 192.168.0.0/16, 203.0.113.0/24, 224.0.0.0/4, 240.0.0.0/4, 255.255.255.255/32 }'
 CustomBypassIP='{ 192.168.0.0/16, 10.0.0.0/8 }'  # 自定义绕过的 IP 地址集合
 
-# 检查指定路由表是否存在
-check_route_exists() {
-    ip route show table "$1" >/dev/null 2>&1
-    return $?
+# 清理现有防火墙规则
+clean_rules() {
+    echo "清理 sing-box 相关的防火墙规则..."
+    nft list table inet sing-box >/dev/null 2>&1 && nft delete table inet sing-box
+    ip rule del fwmark $PROXY_FWMARK lookup $PROXY_ROUTE_TABLE 2>/dev/null
 }
 
-# 创建路由表，如果不存在的话
-create_route_table_if_not_exists() {
-    if ! check_route_exists "$PROXY_ROUTE_TABLE"; then
-        echo "路由表不存在，正在创建..."
-        ip route add local default dev "$INTERFACE" table $PROXY_ROUTE_TABLE || { echo "创建路由表失败"; exit 1; }
+# 创建防火墙规则
+create_rules() {
+    echo "创建 sing-box 相关的防火墙规则..."
+
+    # 设置路由规则
+    ip rule add fwmark $PROXY_FWMARK table $PROXY_ROUTE_TABLE
+    if ! ip route show table $PROXY_ROUTE_TABLE | grep -q "local default"; then
+        ip route add local default dev "$INTERFACE" table $PROXY_ROUTE_TABLE
     fi
 }
 
-# 等待 FIB 表加载完成
-wait_for_fib_table() {
-    i=1
-    while [ $i -le 10 ]; do
-        if ip route show table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1; then
-            return 0
-        fi
-        echo "等待 FIB 表加载中，等待 $i 秒..."
-        i=$((i + 1))
-    done
-    echo "FIB 表加载失败，超出最大重试次数"
-    return 1
-}
+echo "开始配置 TProxy 防火墙规则..."
 
-# 清理现有防火墙规则
-cleanExistRules() {
-    nft list table inet sing-box >/dev/null 2>&1 && nft delete table inet sing-box
-    ip rule del fwmark $PROXY_FWMARK lookup $PROXY_ROUTE_TABLE 2>/dev/null
-    echo "清理 sing-box 相关的防火墙规则"
-}
+# 清理已存在的规则
+clean_rules
 
-echo "应用 TProxy 的防火墙规则..."
+# 创建新规则
+create_rules
 
-# 如果路由表不存在则创建，保证路由表提前创建ok
-create_route_table_if_not_exists
-
-# 等待 FIB 表加载完成
-if ! wait_for_fib_table; then
-    echo "FIB 表准备失败，退出脚本。"
-    exit 1
-fi
-
-cleanExistRules
-
-# 设置 IP 规则
-ip rule add fwmark $PROXY_FWMARK table $PROXY_ROUTE_TABLE
-if ! ip route show table $PROXY_ROUTE_TABLE | grep -q "local default"; then
-    ip route add local default dev "$INTERFACE" table $PROXY_ROUTE_TABLE
-fi
+# 打开端口转发
 # 打开端口转发
 sysctl -w net.ipv4.ip_forward=1 > /dev/null
 

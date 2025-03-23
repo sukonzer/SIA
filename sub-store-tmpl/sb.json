@@ -92,7 +92,7 @@
       "outbounds": [
         "🔯 香港自动",
         "🇺🇲 美国自动",
-        "🔧 手动选择",
+        "GLOBAL",
         "♻️ 自动选择",
         "🎯 直连"
       ]
@@ -114,11 +114,6 @@
       "tolerance": 50
     },
     {
-      "tag": "🔧 手动选择",
-      "type": "selector",
-      "outbounds": []
-    },
-    {
       "tag": "♻️ 自动选择",
       "type": "urltest",
       "outbounds": [],
@@ -131,11 +126,9 @@
       "type": "direct"
     },
     {
-      "tag": "🌐 代理",
+      "tag": "GLOBAL",
       "type": "selector",
-      "outbounds": [
-        "🚀 节点选择"
-      ]
+      "outbounds": []
     },
     {
       "tag": "🐠 漏网之鱼",
@@ -158,12 +151,12 @@
         "action": "hijack-dns"
       },
       {
-        "clash_mode": "Direct",
+        "clash_mode": "direct",
         "outbound": "🎯 直连"
       },
       {
-        "clash_mode": "Global",
-        "outbound": "🌐 代理"
+        "clash_mode": "global",
+        "outbound": "GLOBAL"
       },
       {
         "domain": [

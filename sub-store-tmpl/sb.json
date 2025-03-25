@@ -24,15 +24,11 @@
       {
         "tag": "dns_direct",
         "address": "223.5.5.5",
-        "address_strategy": "ipv4_only",
-        "strategy": "ipv4_only",
         "detour": "🎯 直连"
       },
       {
         "tag": "dns_proxy",
         "address": "tls://8.8.8.8",
-        "address_strategy": "ipv4_only",
-        "strategy": "ipv4_only",
         "detour": "🚀 节点选择"
       }
     ],
@@ -63,8 +59,7 @@
         "server": "dns_proxy"
       }
     ],
-    "final": "dns_proxy",
-    "strategy": "ipv4_only"
+    "final": "dns_proxy"
   },
   "inbounds": [
     {

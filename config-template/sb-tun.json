@@ -184,7 +184,7 @@
     },
     {
       "tag": "🔯 故障转移",
-      "type": "fallback",
+      "type": "urltest",
       "outbounds": [
         "{all}"
       ],
@@ -192,12 +192,7 @@
         {
           "action": "include",
           "keywords": [
-            "🇭🇰|HK|hk|香港|港|HongKong"
-          ]
-        },
-        {
-          "action": "include",
-          "keywords": [
+            "🇭🇰|HK|hk|香港|港|HongKong",
             "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
           ]
         }

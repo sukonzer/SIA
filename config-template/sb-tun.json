@@ -262,11 +262,11 @@
         "outbound": "🎯 直连"
       },
       {
-        "rule_set": "geosite-private",
+        "ip_is_private": true,
         "outbound": "🎯 直连"
       },
       {
-        "rule_set": "geosite-chat",
+        "rule_set": "geosite-ai",
         "outbound": "🤖 AI"
       },
       {
@@ -327,7 +327,7 @@
     ],
     "rule_set": [
       {
-        "tag": "geosite-chat",
+        "tag": "geosite-ai",
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.srs",
@@ -404,13 +404,6 @@
         "download_detour": "🌐 代理"
       },
       {
-        "tag": "geosite-private",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/private.srs",
-        "download_detour": "🌐 代理"
-      },
-      {
         "tag": "geoip-google",
         "type": "remote",
         "format": "binary",
@@ -443,13 +436,6 @@
         "type": "remote",
         "format": "binary",
         "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs",
-        "download_detour": "🌐 代理"
-      },
-      {
-        "tag": "geoip-private",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/private.srs",
         "download_detour": "🌐 代理"
       }
     ]

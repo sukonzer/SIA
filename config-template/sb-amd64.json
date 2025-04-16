@@ -100,11 +100,11 @@
                         "protocol": "dns"
                     }
                 ],
-                "outbound": "dns-out"
+                "action": "hijack-dns"
             },
             {
                 "rule_set": "geosite-category-ads-all",
-                "outbound": "🛑 AdBlock"
+                "action": "reject"
             },
             {
                 "ip_is_private": true,
@@ -465,22 +465,6 @@
         {
             "tag": "🎯 直连",
             "type": "direct"
-        },
-        {
-            "tag": "dns-out",
-            "type": "dns"
-        },
-        {
-            "tag": "dns-block",
-            "type": "block"
-        },
-        {
-            "tag": "🛑 AdBlock",
-            "type": "selector",
-            "outbounds": [
-                "dns-block",
-                "🎯 直连"
-            ]
         }
     ]
 }

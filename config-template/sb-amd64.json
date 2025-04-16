@@ -142,26 +142,11 @@
                 "outbound": "📹 YouTube"
             },
             {
-                "rule_set": "geosite-github",
-                "outbound": "👨‍💻 Github"
-            },
-            {
-                "rule_set": [
-                    "geosite-google",
-                    "geoip-google"
-                ],
-                "outbound": "🔍 Google"
-            },
-            {
                 "rule_set": [
                     "geosite-telegram",
                     "geoip-telegram"
                 ],
                 "outbound": "📲 Telegram"
-            },
-            {
-                "rule_set": "geosite-tiktok",
-                "outbound": "🎵 TikTok"
             },
             {
                 "rule_set": [
@@ -172,23 +157,21 @@
             },
             {
                 "rule_set": [
-                    "geosite-apple",
-                    "geoip-apple"
+                    "geosite-github",
+                    "geosite-google",
+                    "geoip-google",
+                    "geosite-tiktok",
+                    "geosite-geolocation-!cn"
                 ],
-                "outbound": "🍏 Apple"
-            },
-            {
-                "rule_set": "geosite-microsoft",
-                "outbound": "🪟 Microsoft"
-            },
-            {
-                "rule_set": "geosite-geolocation-!cn",
                 "outbound": "🚀 节点选择"
             },
             {
                 "rule_set": [
-                    "geoip-cn",
-                    "geosite-cn"
+                    "geosite-apple",
+                    "geoip-apple",
+                    "geosite-microsoft",
+                    "geosite-cn",
+                    "geoip-cn"
                 ],
                 "outbound": "🎯 直连"
             },
@@ -324,8 +307,8 @@
             "type": "selector",
             "outbounds": [
                 "🔯 故障转移",
-                "🇺🇲 美国节点",
                 "🚄 高速网络",
+                "🇺🇲 美国节点",
                 "🌐 代理",
                 "🎯 直连"
             ]
@@ -347,39 +330,6 @@
             ]
         },
         {
-            "tag": "🔍 Google",
-            "type": "selector",
-            "outbounds": [
-                "🚀 节点选择",
-                "🇺🇲 美国节点"
-            ]
-        },
-        {
-            "tag": "👨‍💻 Github",
-            "type": "selector",
-            "outbounds": [
-                "🚀 节点选择",
-                "🇺🇲 美国节点"
-            ]
-        },
-        {
-            "tag": "🪟 Microsoft",
-            "type": "selector",
-            "outbounds": [
-                "🎯 直连",
-                "🚀 节点选择",
-                "🇺🇲 美国节点"
-            ]
-        },
-        {
-            "tag": "🎵 TikTok",
-            "type": "selector",
-            "outbounds": [
-                "🚀 节点选择",
-                "🇺🇲 美国节点"
-            ]
-        },
-        {
             "tag": "🎥 Netflix",
             "type": "selector",
             "outbounds": [
@@ -393,29 +343,6 @@
             "outbounds": [
                 "🚀 节点选择",
                 "🇺🇲 美国节点"
-            ]
-        },
-        {
-            "tag": "🍏 Apple",
-            "type": "selector",
-            "outbounds": [
-                "🎯 直连",
-                "🇺🇲 美国节点"
-            ]
-        },
-        {
-            "tag": "🇺🇲 美国节点",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "include",
-                    "keywords": [
-                        "🇺🇸|US|us|美国|美|United States"
-                    ]
-                }
             ]
         },
         {
@@ -445,11 +372,11 @@
             ],
             "filter": [
                 {
-                    "action": "exclude",
+                    "action": "include",
                     "keywords": [
-                        "网站|官网|地址|剩余|过期|到期|时间|有效|tg|电报|订阅|刷新",
-                        "🇭🇰|HK|hk|香港|港|HongKong",
-                        "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
+                        "🇯🇵|JP|jp|日本|日|Japan",
+                        "🇰🇷|KR|kr|韩国|韩|Korea",
+                        "🇸🇬|SG|sg|新加坡|新|Singapore"
                     ]
                 }
             ],
@@ -458,10 +385,33 @@
             "tolerance": 50
         },
         {
+            "tag": "🇺🇲 美国节点",
+            "type": "selector",
+            "outbounds": [
+                "{all}"
+            ],
+            "filter": [
+                {
+                    "action": "include",
+                    "keywords": [
+                        "🇺🇸|US|us|美国|美|United States"
+                    ]
+                }
+            ]
+        },
+        {
             "tag": "🌐 代理",
             "type": "selector",
             "outbounds": [
                 "{all}"
+            ],
+            "filter": [
+                {
+                    "action": "exclude",
+                    "keywords": [
+                        "网站|官网|地址|剩余|过期|到期|时间|有效|tg|电报|订阅|刷新"
+                    ]
+                }
             ]
         },
         {

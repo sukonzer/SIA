@@ -106,8 +106,7 @@
     "route": {
         "rules": [
             {
-                "action": "sniff",
-                "inbound": "tun-in"
+                "action": "sniff"
             },
             {
                 "port": 53,
@@ -428,8 +427,7 @@
         },
         {
             "tag": "🎯 直连",
-            "type": "direct",
-            "domain_resolver": "ali"
+            "type": "direct"
         }
     ]
 }

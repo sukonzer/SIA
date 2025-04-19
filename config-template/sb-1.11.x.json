@@ -7,15 +7,15 @@
     "experimental": {
         "clash_api": {
             "external_controller": "0.0.0.0:9095",
-            "external_ui": "C:/Users/Public/sing-box/ui",
+            "external_ui": "ui",
             "secret": "",
-            "external_ui_download_url": "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
-            "external_ui_download_detour": "🌐 代理",
+            "external_ui_download_url": "https://gitproxy.click/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
+            "external_ui_download_detour": "🎯 直连",
             "default_mode": "rule"
         },
         "cache_file": {
             "enabled": true,
-            "path": "C:/Users/Public/sing-box/cache.db",
+            "path": "cache.db",
             "store_fakeip": true
         }
     },
@@ -212,120 +212,120 @@
                 "tag": "geosite-category-ads-all",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/category-ads-all.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/category-ads-all.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-ai",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/category-ai-!cn.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/category-ai-!cn.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-youtube",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/youtube.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/youtube.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-google",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/google.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/google.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-github",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/github.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/github.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-telegram",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/telegram.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/telegram.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-tiktok",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/tiktok.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/tiktok.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-netflix",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/netflix.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/netflix.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-apple",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/apple.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/apple.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-microsoft",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/microsoft.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/microsoft.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-geolocation-!cn",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/geolocation-!cn.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/geolocation-!cn.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geosite-geolocation-cn",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/geolocation-cn.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/geolocation-cn.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geoip-google",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/google.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/google.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geoip-telegram",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/telegram.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/telegram.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geoip-netflix",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/netflix.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/netflix.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geoip-apple",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/apple.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/apple.srs",
+                "download_detour": "🎯 直连"
             },
             {
                 "tag": "geoip-cn",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/cn.srs",
-                "download_detour": "🌐 代理"
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geoip/cn.srs",
+                "download_detour": "🎯 直连"
             }
         ],
         "auto_detect_interface": true,

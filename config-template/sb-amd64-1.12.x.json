@@ -22,10 +22,6 @@
     "dns": {
         "servers": [
             {
-                "tag": "local",
-                "type": "local"
-            },
-            {
                 "type": "fakeip",
                 "tag": "fakeip",
                 "inet4_range": "198.18.0.0/15",
@@ -433,7 +429,7 @@
         {
             "tag": "🎯 直连",
             "type": "direct",
-            "domain_resolver": "local"
+            "domain_resolver": "ali"
         }
     ]
 }

@@ -56,4 +56,9 @@ config.outbounds.forEach(outbound => {
   }
 })
 
+// 动态追加唯一性cache_id
+if (config?.experimental?.cache_file) {
+  Object.assign(config?.experimental?.cache_file, { cache_id: name })
+}
+
 $content = JSON.stringify(config, null, 2)

@@ -11,7 +11,7 @@
             "secret": "",
             "external_ui_download_url": "https://gitproxy.click/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
             "external_ui_download_detour": "🎯 直连",
-            "default_mode": "rule"
+            "default_mode": "Rule"
         },
         "cache_file": {
             "enabled": true,
@@ -91,6 +91,14 @@
                 ],
                 "server": "google",
                 "client_subnet": "223.5.5.5"
+            },
+            {
+                "query_type": [
+                    "A",
+                    "AAAA"
+                ],
+                "server": "fakeip",
+                "rewrite_ttl": 1
             }
         ],
         "final": "google",
@@ -118,8 +126,7 @@
     "route": {
         "rules": [
             {
-                "action": "sniff",
-                "inbound": "tun-in"
+                "action": "sniff"
             },
             {
                 "type": "logical",
@@ -149,12 +156,6 @@
             {
                 "clash_mode": "Global",
                 "outbound": "🌐 代理"
-            },
-            {
-                "domain_suffix": [
-                    "linux.do"
-                ],
-                "outbound": "🚀 节点选择"
             },
             {
                 "rule_set": "geosite-ai",
@@ -197,14 +198,14 @@
                 "outbound": "🚀 节点选择"
             },
             {
-                "action": "resolve"
-            },
-            {
                 "rule_set": [
                     "geoip-cn",
                     "geosite-geolocation-cn"
                 ],
                 "outbound": "🎯 直连"
+            },
+            {
+                "action": "resolve"
             }
         ],
         "rule_set": [

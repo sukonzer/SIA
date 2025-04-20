@@ -373,10 +373,7 @@
                         "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
                     ]
                 }
-            ],
-            "url": "https://www.gstatic.com/generate_204",
-            "interval": "10m",
-            "tolerance": 50
+            ]
         },
         {
             "tag": "🚄 Fast(auto)",

@@ -36,7 +36,7 @@
                 "tag": "google",
                 "type": "tls",
                 "server": "8.8.8.8",
-                "detour": "🌐 Proxy"
+                "detour": "🎯 Node"
             }
         ],
         "rules": [
@@ -116,7 +116,7 @@
             "server": "ali"
         },
         "auto_detect_interface": true,
-        "final": "🌐 Proxy",
+        "final": "🎯 Node",
         "rules": [
             {
                 "action": "sniff"
@@ -180,6 +180,9 @@
                     "geosite-geolocation-!cn"
                 ],
                 "outbound": "🎯 Node"
+            },
+            {
+                "action": "resolve"
             },
             {
                 "rule_set": [
@@ -316,7 +319,7 @@
             "tag": "🎯 Node",
             "type": "selector",
             "outbounds": [
-                "🔯 Nearby(fixed)",
+                "🔯 Nearby",
                 "🇺🇲 USA",
                 "🚄 Fast(auto)",
                 "🌐 Proxy",
@@ -328,7 +331,7 @@
             "type": "selector",
             "outbounds": [
                 "🚄 Fast(auto)",
-                "🔯 Nearby(fixed)",
+                "🔯 Nearby",
                 "🌐 Proxy"
             ]
         },
@@ -354,12 +357,12 @@
             "type": "selector",
             "outbounds": [
                 "🚄 Fast(auto)",
-                "🔯 Nearby(fixed)",
+                "🔯 Nearby",
                 "🌐 Proxy"
             ]
         },
         {
-            "tag": "🔯 Nearby(fixed)",
+            "tag": "🔯 Nearby",
             "type": "selector",
             "outbounds": [
                 "{all}"

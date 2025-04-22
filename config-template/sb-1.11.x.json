@@ -39,19 +39,11 @@
                 "strategy": "prefer_ipv4"
             },
             {
-                "tag": "block",
-                "address": "rcode://success"
-            },
-            {
                 "tag": "fakeip",
                 "address": "fakeip"
             }
         ],
         "rules": [
-            {
-                "rule_set": "geosite-category-ads-all",
-                "server": "block"
-            },
             {
                 "outbound": "any",
                 "server": "ali"
@@ -63,6 +55,10 @@
             {
                 "clash_mode": "Global",
                 "server": "google"
+            },
+            {
+                "query_type": "HTTPS",
+                "action": "reject"
             },
             {
                 "rule_set": "geosite-geolocation-cn",
@@ -91,17 +87,10 @@
                 ],
                 "server": "google",
                 "client_subnet": "223.5.5.5"
-            },
-            {
-                "query_type": [
-                    "A",
-                    "AAAA"
-                ],
-                "server": "fakeip",
-                "rewrite_ttl": 1
             }
         ],
         "final": "google",
+        "client_subnet": "223.5.5.5",
         "independent_cache": true
     },
     "inbounds": [

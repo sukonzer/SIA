@@ -49,12 +49,13 @@
                 "server": "google"
             },
             {
-                "rule_set": "geosite-category-ads-all",
+                "query_type": "HTTPS",
                 "action": "reject"
             },
             {
                 "rule_set": "geosite-geolocation-cn",
-                "server": "ali"
+                "server": "ali",
+                "strategy": "ipv4_only"
             },
             {
                 "query_type": [
@@ -79,17 +80,10 @@
                 ],
                 "server": "google",
                 "client_subnet": "223.5.5.5"
-            },
-            {
-                "query_type": [
-                    "A",
-                    "AAAA"
-                ],
-                "server": "fakeip",
-                "rewrite_ttl": 1
             }
         ],
         "final": "google",
+        "client_subnet": "223.5.5.5",
         "independent_cache": true
     },
     "inbounds": [
@@ -113,7 +107,8 @@
     ],
     "route": {
         "default_domain_resolver": {
-            "server": "ali"
+            "server": "ali",
+            "strategy": "ipv4_only"
         },
         "auto_detect_interface": true,
         "final": "🎯 Node",
@@ -180,9 +175,6 @@
                     "geosite-geolocation-!cn"
                 ],
                 "outbound": "🎯 Node"
-            },
-            {
-                "action": "resolve"
             },
             {
                 "rule_set": [

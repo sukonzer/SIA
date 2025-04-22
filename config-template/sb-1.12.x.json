@@ -62,24 +62,8 @@
                     "A",
                     "AAAA"
                 ],
-                "rule_set": "geosite-geolocation-!cn",
                 "server": "fakeip",
                 "rewrite_ttl": 1
-            },
-            {
-                "type": "logical",
-                "mode": "and",
-                "rules": [
-                    {
-                        "rule_set": "geosite-geolocation-!cn",
-                        "invert": true
-                    },
-                    {
-                        "rule_set": "geoip-cn"
-                    }
-                ],
-                "server": "google",
-                "client_subnet": "223.5.5.5"
             }
         ],
         "final": "google",
@@ -137,14 +121,6 @@
                 "outbound": "🌐 Proxy"
             },
             {
-                "rule_set": [
-                    "geoip-apple",
-                    "geosite-apple",
-                    "geosite-microsoft"
-                ],
-                "outbound": "🎯 Direct"
-            },
-            {
                 "rule_set": "geosite-ai",
                 "outbound": "🤖 AI"
             },
@@ -167,19 +143,34 @@
                 "outbound": "🎥 Netflix"
             },
             {
-                "rule_set": [
-                    "geosite-github",
-                    "geoip-google",
-                    "geosite-google",
-                    "geosite-tiktok",
-                    "geosite-geolocation-!cn"
+                "type": "logical",
+                "mode": "and",
+                "rules": [
+                    {
+                        "rule_set": "geosite-geolocation-!cn"
+                    },
+                    {
+                        "invert": true,
+                        "rule_set": [
+                            "geosite-geolocation-cn",
+                            "geosite-apple",
+                            "geosite-microsoft",
+                            "geosite-youtube",
+                            "geosite-telegram",
+                            "geosite-netflix"
+                        ]
+                    }
                 ],
+                "action": "route",
                 "outbound": "🎯 Node"
             },
             {
                 "rule_set": [
                     "geoip-cn",
-                    "geosite-geolocation-cn"
+                    "geosite-geolocation-cn",
+                    "geoip-apple",
+                    "geosite-apple",
+                    "geosite-microsoft"
                 ],
                 "outbound": "🎯 Direct"
             }

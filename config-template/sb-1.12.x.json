@@ -304,7 +304,7 @@
             "outbounds": [
                 "🔯 Nearby",
                 "🇺🇲 USA",
-                "🚄 Fast(auto)",
+                "🚄 Auto",
                 "🌐 Proxy",
                 "🎯 Direct"
             ]
@@ -313,8 +313,9 @@
             "tag": "📹 YouTube",
             "type": "selector",
             "outbounds": [
-                "🚄 Fast(auto)",
+                "🚄 Auto",
                 "🔯 Nearby",
+                "🇺🇲 USA",
                 "🌐 Proxy"
             ]
         },
@@ -330,7 +331,8 @@
             "tag": "🎥 Netflix",
             "type": "selector",
             "outbounds": [
-                "🎯 Node",
+                "🚄 Auto",
+                "🔯 Nearby",
                 "🇺🇲 USA",
                 "🌐 Proxy"
             ]
@@ -339,8 +341,9 @@
             "tag": "📲 Telegram",
             "type": "selector",
             "outbounds": [
-                "🚄 Fast(auto)",
+                "🚄 Auto",
                 "🔯 Nearby",
+                "🇺🇲 USA",
                 "🌐 Proxy"
             ]
         },
@@ -362,18 +365,19 @@
             ]
         },
         {
-            "tag": "🚄 Fast(auto)",
+            "tag": "🚄 Auto",
             "type": "urltest",
             "outbounds": [
                 "{all}"
             ],
             "filter": [
                 {
-                    "action": "include",
+                    "action": "exclude",
                     "keywords": [
-                        "🇯🇵|JP|jp|日本|Japan",
-                        "🇰🇷|KR|kr|韩国|韩|Korea",
-                        "🇸🇬|SG|sg|新加坡|Singapore"
+                        "网站|官网|地址|剩余|过期|到期|时间|有效|tg|群|订阅|刷新",
+                        "🇭🇰|HK|hk|香港|港|HongKong",
+                        "🇲🇴|MO|mo|澳门|macau|Macau",
+                        "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
                     ]
                 }
             ],

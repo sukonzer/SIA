@@ -23,7 +23,7 @@ function filterProxies(proxies, filter) {
             return proxy.tag && proxy.tag.match(new RegExp(keyword, 'i'))
           })
         } else if (f.action === 'exclude' && Array.isArray(f.keywords)) {
-          return !f.keywords.every(keyword => {
+          return !f.keywords.some(keyword => {
             return proxy.tag && proxy.tag.match(new RegExp(keyword, 'i'))
           })
         }

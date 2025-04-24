@@ -57,7 +57,16 @@
                 "server": "google"
             },
             {
-                "query_type": "HTTPS",
+                "type": "logical",
+                "mode": "or",
+                "rules": [
+                    {
+                        "query_type": "HTTPS"
+                    },
+                    {
+                        "rule_set": "geosite-category-ads-all"
+                    }
+                ],
                 "action": "reject"
             },
             {

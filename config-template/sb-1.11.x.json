@@ -70,7 +70,10 @@
                 "action": "reject"
             },
             {
-                "rule_set": "geosite-geolocation-cn",
+                "rule_set": [
+                    "geosite-cn",
+                    "geosite-geolocation-cn"
+                ],
                 "server": "ali"
             },
             {
@@ -188,6 +191,7 @@
             {
                 "rule_set": [
                     "geoip-cn",
+                    "geosite-cn",
                     "geosite-geolocation-cn",
                     "geoip-apple",
                     "geosite-apple",
@@ -278,7 +282,14 @@
                 "tag": "geosite-geolocation-cn",
                 "type": "remote",
                 "format": "binary",
-                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/geolocation-cn.srs",
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/geolocation-cn@cn.srs",
+                "download_detour": "🎯 Direct"
+            },
+            {
+                "tag": "geosite-cn",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/cn.srs",
                 "download_detour": "🎯 Direct"
             },
             {

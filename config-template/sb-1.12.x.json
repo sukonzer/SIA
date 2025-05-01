@@ -133,6 +133,13 @@
                 "outbound": "🌐 Proxy"
             },
             {
+                "rule_set": [
+                    "geoip-google",
+                    "geosite-google"
+                ],
+                "outbound": "🔍 Google"
+            },
+            {
                 "rule_set": "geosite-ai",
                 "outbound": "🤖 AI"
             },
@@ -327,6 +334,15 @@
                 "🚄 Auto",
                 "🌐 Proxy",
                 "🎯 Direct"
+            ]
+        },
+        {
+            "tag": "🔍 Google",
+            "type": "selector",
+            "outbounds": [
+                "🇺🇲 USA",
+                "🔯 Nearby",
+                "🌐 Proxy"
             ]
         },
         {

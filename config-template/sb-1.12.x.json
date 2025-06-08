@@ -133,6 +133,15 @@
                 "outbound": "🌐 Proxy"
             },
             {
+                "domain_suffix": [
+                    "cursor.com",
+                    "cursor.sh",
+                    "cursor-cdn.com",
+                    "cursorapi.com"
+                ],
+                "outbound": "🎯 Direct"
+            },
+            {
                 "rule_set": [
                     "geoip-google",
                     "geosite-google"

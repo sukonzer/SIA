@@ -149,7 +149,10 @@
                     "cursor.com",
                     "cursor.sh",
                     "cursor-cdn.com",
-                    "cursorapi.com"
+                    "cursorapi.com",
+                    "patsnap.com",
+                    "figma.com",
+                    "sprig.com"
                 ],
                 "outbound": "🎯 Direct"
             },

@@ -146,13 +146,15 @@
             },
             {
                 "domain_suffix": [
-                    "cursor.com",
-                    "cursor.sh",
-                    "cursor-cdn.com",
-                    "cursorapi.com",
                     "patsnap.com",
-                    "figma.com",
-                    "sprig.com"
+                ],
+                "outbound": "🎯 Direct"
+            },
+            {
+                "rule_set": [
+                    "geosite-dingtalk",
+                    "geosite-figma",
+                    "geosite-cursor"
                 ],
                 "outbound": "🎯 Direct"
             },
@@ -327,6 +329,27 @@
                 "type": "remote",
                 "format": "binary",
                 "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/microsoft.srs",
+                "download_detour": "🎯 Direct"
+            },
+            {
+                "tag": "geosite-dingtalk",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/dingtalk.srs",
+                "download_detour": "🎯 Direct"
+            },
+            {
+                "tag": "geosite-figma",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/figma.srs",
+                "download_detour": "🎯 Direct"
+            },
+            {
+                "tag": "geosite-cursor",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://gitproxy.click/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo/geosite/cursor.srs",
                 "download_detour": "🎯 Direct"
             },
             {

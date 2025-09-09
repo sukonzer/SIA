@@ -153,8 +153,7 @@
             {
                 "rule_set": [
                     "geosite-dingtalk",
-                    "geosite-figma",
-                    "geosite-cursor"
+                    "geosite-figma"
                 ],
                 "outbound": "🎯 Direct"
             },

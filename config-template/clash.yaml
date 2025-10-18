@@ -64,7 +64,7 @@ rules:
   - DOMAIN-SUFFIX,claude.ai,🇺🇲 美国
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
-  - DOMAIN-SUFFIX,qichiyu.com,🚀 节点选择
+  - DOMAIN-SUFFIX,vicson.ggff.net,🚀 节点选择
   - RULE-SET,proxylite,🚀 节点选择
   - RULE-SET,ai,🤖 ChatGPT
   - RULE-SET,github_domain,👨🏿‍💻 GitHub

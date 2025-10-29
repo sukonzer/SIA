@@ -62,6 +62,9 @@ rules:
   - DOMAIN,cdn.usefathom.com,🇺🇲 美国
   - DOMAIN-SUFFIX,anthropic.com,🇺🇲 美国
   - DOMAIN-SUFFIX,claude.ai,🇺🇲 美国
+  - DOMAIN-SUFFIX,claudeusercontent.com,🇺🇲 美国
+  - DOMAIN-SUFFIX,intercomcdn.com,🇺🇲 美国
+  - DOMAIN-SUFFIX,servd-anthropic-website.b-cdn.net,🇺🇲 美国
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
   - DOMAIN-SUFFIX,vicson.ggff.net,🚀 节点选择

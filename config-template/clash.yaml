@@ -10,7 +10,6 @@ proxy-providers:
       interval: 300
     proxy: DIRECT
 
-proxies:
 
 mixed-port: 7890
 allow-lan: true
@@ -22,55 +21,152 @@ dns:
     enable: true
     listen: '0.0.0.0:5353'
     ipv6: false
-    default-nameserver: [223.5.5.5, 114.114.114.114]
-    nameserver: [223.5.5.5, 114.114.114.114, 119.29.29.29, 180.76.76.76]
     enhanced-mode: fake-ip
     fake-ip-range: 198.18.0.1/16
     fake-ip-filter-mode: blacklist
-    fake-ip-filter: ['rule-set:private_domain,cn_domain','*.lan', '*.localdomain', '*.example', '*.invalid', '*.localhost', '*.test', '*.local', '*.home.arpa', 'time.*.com', router.asus.com, localhost.sec.qq.com, localhost.ptlogin2.qq.com, +.msftconnecttest.com]
+    fake-ip-filter: 
+      - 'rule-set:private_domain,cn_domain'
+      - '*.lan'
+      - '*.localdomain'
+      - '*.example'
+      - '*.invalid'
+      - '*.localhost'
+      - '*.test'
+      - '*.local'
+      - '*.home.arpa'
+      - 'time.*.com'
+      - 'router.asus.com'
+      - 'localhost.sec.qq.com'
+      - 'localhost.ptlogin2.qq.com'
+      - '+.msftconnecttest.com'
+    default-nameserver:
+      - tls://223.5.5.5
+      - tls://114.114.114.114
+    nameserver:
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
 
 tun:
     enable: true
     stack: system
     auto-route: true
     auto-detect-interface: true
-    dns-hijack: ['114.114.114.114:53', '180.76.76.76:53', '119.29.29.29:53', '223.5.5.5:53', '8.8.8.8:53', '8.8.4.4:53', '1.1.1.1:53', '1.0.0.1:53']
+    dns-hijack: 
+      - 'any:53'
+
+# ========================
+# 策略组锚点
+# ========================
+proxies-anchor: &default
+  type: select
+  proxies:
+    - 🔯 故障转移
+    - 🚄 高速公路
+    - 🇭🇰 香港
+    - 🇯🇵 日本
+    - 🇸🇬 狮城
+    - 🇺🇲 美国
+    - 🌐 全部节点
+    - 🔗 链式代理
+    - DIRECT
+    - REJECT
+
+proxies:
+  - {name: "住宅-美", type: socks5, server: '', port: '', username: '', password: '', udp: true}
 
 proxy-groups:
-  - {name: 🚀 节点选择, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 📹 YouTube, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 🍀 Google, type: select, proxies: [🔯 故障转移, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 🤖 ChatGPT, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 👨🏿‍💻 GitHub, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 🐬 OneDrive, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 🪟 Microsoft, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 🎵 TikTok, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 📲 Telegram, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 🎥 NETFLIX, type: select, proxies: [🔯 故障转移, 🚄 高速公路, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 💶 PayPal, type: select, proxies: [🔯 故障转移, 🇭🇰 香港, 🇯🇵 日本, 🇸🇬 狮城, 🇺🇲 美国, 🌐 全部节点, DIRECT]}
-  - {name: 🇭🇰 香港, type: select, include-all: true, filter: "(?i)港|hk|hongkong|hong kong"}
-  - {name: 🇯🇵 日本, type: select, include-all: true, filter: "(?i)日|jp|japan"}
-  - {name: 🇸🇬 狮城, type: select, include-all: true, filter: "(?i)新加坡|坡|狮城|SG|Singapore"}
-  - {name: 🇺🇲 美国, type: select, include-all: true, filter: "(?i)美|us|unitedstates|united states"}
-  - {name: 🔯 故障转移, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"}
-  - {name: 🚄 高速公路, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^(?:(?!美|(us|US)|unitedstates|united states).)*$"}
-  - {name: 🌐 全部节点, type: select, include-all: true}
-  - {name: GLOBAL, type: select, include-all: true}
+  - name: "🔰 链式-前置"
+    type: url-test
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+    use:
+      - provider1
+    filter: "(?i)(香港|HK|Hong|台湾|台灣|TW|Tai Wan|🇹🇼|TaiWan|Taiwan|JP|Japan|日|jp|japan|SG|Sin|Singapore)"
+
+  # 3. 链式代理
+  - name: "🔗 链式代理"
+    type: relay
+    proxies:
+      - "🔰 链式-前置"
+      - "住宅节点"
+
+  # 住宅IP节点组
+  - name: "住宅节点"
+    type: select
+    proxies:
+      - 住宅-美
+
+  - {name: 🚀 节点选择, <<: *default}
+  - {name: 🍀 Google, <<: *default}
+  - {name: 🤖 AI, <<: *default}
+  - {name: 📲 Telegram, <<: *default}
+  - {name: 👨‍💻 Github, <<: *default}
+  - {name: 📹 YouTube, <<: *default}
+  - {name: 🎥 NETFLIX, <<: *default}
+  - {name: 🎵 TikTok, <<: *default}
+  - {name: 💶 PayPal, <<: *default}
+  - {name: 🐬 OneDrive, <<: *default}
+  - {name: 🪟 Microsoft, <<: *default}
+
+
+  - name: 🇭🇰 香港
+    type: select
+    include-all: true
+    filter: "(?i)港|hk|hongkong|hong kong"
+  
+  - name: 🇯🇵 日本
+    type: select
+    include-all: true
+    filter: "(?i)日|jp|japan"
+  
+  - name: 🇸🇬 狮城
+    type: select
+    include-all: true
+    filter: "(?i)新加坡|坡|狮城|SG|Singapore"
+  
+  - name: 🇺🇲 美国
+    type: select
+    include-all: true
+    filter: "(?i)美|us|unitedstates|united states"
+
+  - name: 🔯 故障转移
+    type: fallback
+    include-all: true
+    tolerance: 20
+    interval: 300
+    filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"
+  
+  - name: 🚄 高速公路
+    type: url-test
+    include-all: true
+    tolerance: 20
+    interval: 300
+    filter: "(?i)(香港|HK|Hong|台湾|台灣|TW|Tai Wan|🇹🇼|TaiWan|Taiwan|JP|Japan|日|jp|japan|SG|Sin|Singapore)"
+  
+  - name: 🌐 全部节点
+    type: select
+    include-all: true
+  
+  - name: GLOBAL
+    type: select
+    include-all: true
+  
 
 # 规则匹配
 rules:
   - DOMAIN,cdn.usefathom.com,🇺🇲 美国
   - DOMAIN-SUFFIX,anthropic.com,🇺🇲 美国
   - DOMAIN-SUFFIX,claude.ai,🇺🇲 美国
-  - DOMAIN-SUFFIX,claudeusercontent.com,🇺🇲 美国
-  - DOMAIN-SUFFIX,intercomcdn.com,🇺🇲 美国
-  - DOMAIN-SUFFIX,servd-anthropic-website.b-cdn.net,🇺🇲 美国
+  - DOMAIN-SUFFIX,ping0.cc,🚀 节点选择
+  - DOMAIN-SUFFIX,de5.net,🚀 节点选择
+  - DOMAIN-SUFFIX,ggff.net,🚀 节点选择
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
-  - DOMAIN-SUFFIX,vicson.ggff.net,🚀 节点选择
+  - DOMAIN-SUFFIX,qichiyu.com,🚀 节点选择
   - RULE-SET,proxylite,🚀 节点选择
-  - RULE-SET,ai,🤖 ChatGPT
-  - RULE-SET,github_domain,👨🏿‍💻 GitHub
+  - RULE-SET,ai,🤖 AI
+  - RULE-SET,github_domain,👨‍💻 Github
   - RULE-SET,youtube_domain,📹 YouTube
   - RULE-SET,google_domain,🍀 Google
   - RULE-SET,onedrive_domain,🐬 OneDrive

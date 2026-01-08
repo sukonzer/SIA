@@ -67,12 +67,12 @@ proxies-anchor: &default
     - 🇸🇬 狮城
     - 🇺🇲 美国
     - 🌐 全部节点
-    - 🔗 链式代理
+    - 🔗 链式-落地
     - DIRECT
     - REJECT
 
 proxies:
-  - {name: "住宅-美", type: socks5, server: '', port: '', username: '', password: '', udp: true}
+  - {name: "住宅-美", type: socks5, server: 111.222.333.111, port: 2222, username: 'aaa', password: '2222', udp: true, dialer-proxy: "🔰 链式-前置"}
 
 proxy-groups:
   - name: "🔰 链式-前置"
@@ -81,15 +81,14 @@ proxy-groups:
     interval: 300
     tolerance: 50
     use:
-      - provider1
+      - redleaf
+      - cf-snippets
+      - cf-worker
     filter: "(?i)(香港|HK|Hong|台湾|台灣|TW|Tai Wan|🇹🇼|TaiWan|Taiwan|JP|Japan|日|jp|japan|SG|Sin|Singapore)"
 
-  # 3. 链式代理
-  - name: "🔗 链式代理"
-    type: relay
-    proxies:
-      - "🔰 链式-前置"
-      - "住宅节点"
+  - name: "🔗 链式-落地"
+    type: select
+    proxies: [住宅节点, 🇺🇲 美国, 🇯🇵 日本, 🇭🇰 香港]
 
   # 住宅IP节点组
   - name: "住宅节点"
@@ -102,6 +101,7 @@ proxy-groups:
   - {name: 🤖 AI, <<: *default}
   - {name: 📲 Telegram, <<: *default}
   - {name: 👨‍💻 Github, <<: *default}
+  - {name: 𝕏, <<: *default}
   - {name: 📹 YouTube, <<: *default}
   - {name: 🎥 NETFLIX, <<: *default}
   - {name: 🎵 TikTok, <<: *default}
@@ -158,17 +158,22 @@ rules:
   - DOMAIN,cdn.usefathom.com,🇺🇲 美国
   - DOMAIN-SUFFIX,anthropic.com,🇺🇲 美国
   - DOMAIN-SUFFIX,claude.ai,🇺🇲 美国
+  - DOMAIN,servd-anthropic-website.b-cdn.net,🇺🇲 美国
+  - DOMAIN-SUFFIX,anthropic.com,🇺🇲 美国
+  - DOMAIN-SUFFIX,claude.com,🇺🇲 美国
+  - DOMAIN-SUFFIX,claudeusercontent.com,🇺🇲 美国
+  - DOMAIN-SUFFIX,claudemcpclient.com,🇺🇲 美国
   - DOMAIN-SUFFIX,ping0.cc,🚀 节点选择
   - DOMAIN-SUFFIX,de5.net,🚀 节点选择
   - DOMAIN-SUFFIX,ggff.net,🚀 节点选择
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
-  - DOMAIN-SUFFIX,qichiyu.com,🚀 节点选择
   - RULE-SET,proxylite,🚀 节点选择
   - RULE-SET,ai,🤖 AI
   - RULE-SET,github_domain,👨‍💻 Github
   - RULE-SET,youtube_domain,📹 YouTube
   - RULE-SET,google_domain,🍀 Google
+  - RULE-SET,x_domain,𝕏
   - RULE-SET,onedrive_domain,🐬 OneDrive
   - RULE-SET,microsoft_domain,🪟 Microsoft
   - RULE-SET,apple_domain,DIRECT
@@ -180,6 +185,17 @@ rules:
   - RULE-SET,google_ip,🍀 Google,no-resolve
   - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
   - RULE-SET,telegram_ip,📲 Telegram,no-resolve
+  - DOMAIN-REGEX,^relay-[\w-]+\.tktn\.be$,🔗 链式-落地
+  - DOMAIN-SUFFIX,tktn.at,🔰 链式-前置
+  - DOMAIN-SUFFIX,tktn.be,🔰 链式-前置
+  - DOMAIN-SUFFIX,vm.talkatone.com,🔰 链式-前置
+  - DOMAIN-SUFFIX,tenor.com,🔰 链式-前置
+  - RULE-SET,talkatone_domain,DIRECT
+  - IP-CIDR,205.164.56.0/24,DIRECT,no-resolve
+  - IP-CIDR,216.172.154.0/24,DIRECT,no-resolve
+  - IP-CIDR,50.117.27.0/24,DIRECT,no-resolve
+  - IP-CIDR,63.251.124.0/24,DIRECT,no-resolve
+  - IP-CIDR,69.46.75.0/24,DIRECT,no-resolve
   - RULE-SET,geolocation-!cn,🚀 节点选择
   - RULE-SET,cn_domain,DIRECT
   - RULE-SET,cn_ip,DIRECT
@@ -206,6 +222,8 @@ rule-providers:
   apple_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
   speedtest_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"}
   tiktok_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"}
+  talkatone_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/talkatone.mrs"}
+  x_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}
   geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
   

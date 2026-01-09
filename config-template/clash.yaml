@@ -60,7 +60,8 @@ tun:
 proxies-anchor: &default
   type: select
   proxies:
-    - 🔯 故障转移
+    - 🔯 亚洲故转
+    - 🔯 美洲故转
     - 🚄 高速公路
     - 🇭🇰 香港
     - 🇯🇵 日本
@@ -72,23 +73,26 @@ proxies-anchor: &default
     - REJECT
 
 proxies:
-  - {name: "住宅-美", type: socks5, server: 111.222.333.111, port: 2222, username: 'aaa', password: '2222', udp: true, dialer-proxy: "🔰 链式-前置"}
+  - {name: "住宅-美", type: socks5, server: 111.222.333.111, port: 2222, username: 'aaa', password: '2222', udp: true, dialer-proxy: "🔯 亚洲故转"}
 
 proxy-groups:
-  - name: "🔰 链式-前置"
-    type: url-test
-    url: "http://www.gstatic.com/generate_204"
+  - name: 🔯 亚洲故转
+    type: fallback
+    include-all: true
+    tolerance: 20
     interval: 300
-    tolerance: 50
-    use:
-      - redleaf
-      - cf-snippets
-      - cf-worker
-    filter: "(?i)(香港|HK|Hong|台湾|台灣|TW|Tai Wan|🇹🇼|TaiWan|Taiwan|JP|Japan|日|jp|japan|SG|Sin|Singapore)"
+    filter: "(?i)(香港|HK|Hong|台湾|台灣|TW|Tai Wan|🇹🇼|TaiWan|Taiwan|JP|Japan|日|jp|japan|新加坡|坡|狮城|SG|Sin|Singapore)"
+
+  - name: 🔯 美洲故转
+    type: fallback
+    include-all: true
+    tolerance: 20
+    interval: 300
+    filter: "(?i)美|us|unitedstates|united states"
 
   - name: "🔗 链式-落地"
     type: select
-    proxies: [住宅节点, 🇺🇲 美国, 🇯🇵 日本, 🇭🇰 香港]
+    proxies: [住宅节点, 🇺🇲 美国, 爪云德国, 🇯🇵 日本, 🇭🇰 香港]
 
   # 住宅IP节点组
   - name: "住宅节点"
@@ -123,34 +127,29 @@ proxy-groups:
   - name: 🇸🇬 狮城
     type: select
     include-all: true
-    filter: "(?i)新加坡|坡|狮城|SG|Singapore"
+    filter: "(?i)新加坡|坡|狮城|SG|Sin|Singapore"
   
   - name: 🇺🇲 美国
     type: select
     include-all: true
     filter: "(?i)美|us|unitedstates|united states"
-
-  - name: 🔯 故障转移
-    type: fallback
-    include-all: true
-    tolerance: 20
-    interval: 300
-    filter: "(?=.*(港|HK|(?i)Hong))^((?!(台|日|韩|新|深|美)).)*$"
   
   - name: 🚄 高速公路
     type: url-test
     include-all: true
     tolerance: 20
     interval: 300
-    filter: "(?i)(香港|HK|Hong|台湾|台灣|TW|Tai Wan|🇹🇼|TaiWan|Taiwan|JP|Japan|日|jp|japan|SG|Sin|Singapore)"
+    filter: "(?i)(香港|HK|Hong|台湾|台灣|TW|Tai Wan|🇹🇼|TaiWan|Taiwan|JP|Japan|日|jp|japan|新加坡|坡|狮城|SG|Sin|Singapore)"
   
   - name: 🌐 全部节点
     type: select
     include-all: true
+    filter: "^(?!.*(原生|官网|到期|重置)).*$"
   
   - name: GLOBAL
     type: select
     include-all: true
+    filter: "^(?!.*(原生|官网|到期|重置)).*$"
   
 
 # 规则匹配
@@ -166,6 +165,8 @@ rules:
   - DOMAIN-SUFFIX,ping0.cc,🚀 节点选择
   - DOMAIN-SUFFIX,de5.net,🚀 节点选择
   - DOMAIN-SUFFIX,ggff.net,🚀 节点选择
+  - DOMAIN-REGEX,^(.+\.)?run\.claw\.cloud$,DIRECT # 爪云直连
+  - DOMAIN-REGEX,^(.+\.)?kaspersky\.com$,DIRECT # kapersky直连
   - RULE-SET,private_ip,DIRECT,no-resolve
   - RULE-SET,private_domain,DIRECT
   - RULE-SET,proxylite,🚀 节点选择
@@ -186,10 +187,10 @@ rules:
   - RULE-SET,netflix_ip,🎥 NETFLIX,no-resolve
   - RULE-SET,telegram_ip,📲 Telegram,no-resolve
   - DOMAIN-REGEX,^relay-[\w-]+\.tktn\.be$,🔗 链式-落地
-  - DOMAIN-SUFFIX,tktn.at,🔰 链式-前置
-  - DOMAIN-SUFFIX,tktn.be,🔰 链式-前置
-  - DOMAIN-SUFFIX,vm.talkatone.com,🔰 链式-前置
-  - DOMAIN-SUFFIX,tenor.com,🔰 链式-前置
+  - DOMAIN-SUFFIX,tktn.at,🔯 亚洲故转
+  - DOMAIN-SUFFIX,tktn.be,🔯 亚洲故转
+  - DOMAIN-SUFFIX,vm.talkatone.com,🔯 亚洲故转
+  - DOMAIN-SUFFIX,tenor.com,🔯 亚洲故转
   - RULE-SET,talkatone_domain,DIRECT
   - IP-CIDR,205.164.56.0/24,DIRECT,no-resolve
   - IP-CIDR,216.172.154.0/24,DIRECT,no-resolve

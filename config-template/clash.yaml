@@ -1,3 +1,4 @@
+# 订阅者
 proxy-providers:
   provider1:
     url: "Subscription Link" # 订阅链接
@@ -10,49 +11,6 @@ proxy-providers:
       interval: 300
     proxy: DIRECT
 
-
-mixed-port: 7890
-allow-lan: true
-bind-address: '*'
-mode: rule
-log-level: info
-
-dns:
-    enable: true
-    listen: '0.0.0.0:5353'
-    ipv6: false
-    enhanced-mode: fake-ip
-    fake-ip-range: 198.18.0.1/16
-    fake-ip-filter-mode: blacklist
-    fake-ip-filter: 
-      - 'rule-set:private_domain,cn_domain'
-      - '*.lan'
-      - '*.localdomain'
-      - '*.example'
-      - '*.invalid'
-      - '*.localhost'
-      - '*.test'
-      - '*.local'
-      - '*.home.arpa'
-      - 'time.*.com'
-      - 'router.asus.com'
-      - 'localhost.sec.qq.com'
-      - 'localhost.ptlogin2.qq.com'
-      - '+.msftconnecttest.com'
-    default-nameserver:
-      - tls://223.5.5.5
-      - tls://114.114.114.114
-    nameserver:
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
-
-tun:
-    enable: true
-    stack: system
-    auto-route: true
-    auto-detect-interface: true
-    dns-hijack: 
-      - 'any:53'
 
 # ========================
 # 策略组锚点
@@ -234,3 +192,51 @@ rule-providers:
   telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
   netflix_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"}
   apple_ip: {<<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo-lite/geoip/apple.mrs"}
+
+# 核心配置
+mixed-port: 7890
+allow-lan: false
+bind-address: '*'
+mode: rule
+log-level: info
+
+# dns
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*"
+    - +.lan
+    - +.local
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+  use-hosts: false
+  use-system-hosts: false
+  respect-rules: false
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+    - tls://223.5.5.5
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  direct-nameserver: []
+  fallback: []
+
+# 虚拟网卡
+tun:
+  enable: false
+  stack: mixed
+  auto-route: true
+  auto-redirect: false
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+  route-exclude-address: []
+  mtu: 1500

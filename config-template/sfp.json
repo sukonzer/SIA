@@ -108,22 +108,6 @@
                 "action": "reject"
             },
             {
-                "type": "logical",
-                "mode": "and",
-                "rules": [
-                    {
-                        "rule_set": "geosite-geolocation-!cn",
-                        "invert": true
-                    },
-                    {
-                        "rule_set": "geoip-cn"
-                    }
-                ],
-                "server": "proxy_dns",
-                "strategy": "ipv4_only",
-                "client_subnet": "221.131.143.0/24"
-            },
-            {
                 "rule_set": "geosite-cn",
                 "server": "direct_dns"
             },
@@ -136,8 +120,10 @@
                 "rewrite_ttl": 1
             }
         ],
-        "strategy": "ipv4_only",
-        "independent_cache": true
+        "final": "proxy_dns",
+        "independent_cache": true,
+        "strategy": "prefer_ipv4",
+        "client_subnet": "221.131.143.0/24"
     },
     "inbounds": [
         {

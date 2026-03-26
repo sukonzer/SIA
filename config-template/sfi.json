@@ -69,13 +69,28 @@
                 "server": "proxy_dns"
             },
             {
+                "type": "logical",
+                "mode": "and",
+                "rules": [
+                    {
+                        "rule_set": "geosite-geolocation-!cn",
+                        "invert": true
+                    },
+                    {
+                        "rule_set": "geoip-cn"
+                    }
+                ],
+                "server": "proxy_dns",
+                "strategy": "ipv4_only",
+                "client_subnet": "221.131.143.0/24"
+            },
+            {
                 "rule_set": "geosite-cn",
                 "server": "direct_dns"
             }
         ],
-        "final": "proxy_dns",
-        "independent_cache": true,
-        "client_subnet": "221.131.143.0/24"
+        "strategy": "ipv4_only",
+        "independent_cache": true
     },
     "inbounds": [
         {
@@ -85,6 +100,7 @@
                 "172.19.0.1/30",
                 "fdfe:dcba:9876::1/126"
             ],
+            "mtu": 9000,
             "auto_route": true,
             "strict_route": true
         }
@@ -142,7 +158,8 @@
             {
                 "rule_set": [
                     "geoip-google",
-                    "geosite-google"
+                    "geosite-google",
+                    "geosite-github"
                 ],
                 "outbound": "🔍 Google"
             },
@@ -151,7 +168,10 @@
                 "outbound": "🤖 AI"
             },
             {
-                "rule_set": "geosite-youtube",
+                "rule_set": [
+                    "geosite-youtube",
+                    "geosite-tiktok"
+                ],
                 "outbound": "📹 YouTube"
             },
             {
@@ -203,12 +223,6 @@
                             "69.46.75.0/24"
                         ]
                     }
-                ],
-                "outbound": "🎯 Direct"
-            },
-            {
-                "domain_regex": [
-                    "^(.+\\.)?kaspersky\\.com$"
                 ],
                 "outbound": "🎯 Direct"
             },

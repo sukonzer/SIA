@@ -51,7 +51,7 @@
                 "type": "local"
             },
             {
-                "tag": "fake-ip-dns-server",
+                "tag": "fakeip_dns",
                 "type": "fakeip",
                 "inet4_range": "198.18.0.0/15",
                 "inet6_range": "fc00::/64"
@@ -89,24 +89,12 @@
         ],
         "rules": [
             {
-                "ip_accept_any": true,
-                "server": "hosts_dns"
-            },
-            {
                 "clash_mode": "Direct",
                 "server": "direct_dns"
             },
             {
                 "clash_mode": "Global",
                 "server": "proxy_dns"
-            },
-            {
-                "query_type": [
-                    "A",
-                    "AAAA"
-                ],
-                "server": "fake-ip-dns-server",
-                "rewrite_ttl": 1
             },
             {
                 "query_type": "PTR",
@@ -120,14 +108,36 @@
                 "action": "reject"
             },
             {
+                "type": "logical",
+                "mode": "and",
+                "rules": [
+                    {
+                        "rule_set": "geosite-geolocation-!cn",
+                        "invert": true
+                    },
+                    {
+                        "rule_set": "geoip-cn"
+                    }
+                ],
+                "server": "proxy_dns",
+                "strategy": "ipv4_only",
+                "client_subnet": "221.131.143.0/24"
+            },
+            {
                 "rule_set": "geosite-cn",
                 "server": "direct_dns"
+            },
+            {
+                "query_type": [
+                    "A",
+                    "AAAA"
+                ],
+                "server": "fakeip_dns",
+                "rewrite_ttl": 1
             }
         ],
-        "final": "proxy_dns",
-        "strategy": "prefer_ipv4",
-        "independent_cache": true,
-        "client_subnet": "221.131.143.0/24"
+        "strategy": "ipv4_only",
+        "independent_cache": true
     },
     "inbounds": [
         {
@@ -137,22 +147,9 @@
                 "172.19.0.1/30",
                 "fdfe:dcba:9876::1/126"
             ],
+            "mtu": 9000,
             "auto_route": true,
-            "auto_redirect": false,
-            "platform": {
-                "http_proxy": {
-                    "enabled": false,
-                    "server": "127.0.0.1",
-                    "server_port": 7890,
-                    "bypass_domain": [
-                        "*zhihu.com",
-                        "*zhimg.com",
-                        "*jd.com",
-                        "100ime-iat-api.xfyun.cn",
-                        "*360buyimg.com"
-                    ]
-                }
-            }
+            "strict_route": true
         },
         {
             "tag": "mixed-in",
@@ -229,7 +226,8 @@
             {
                 "rule_set": [
                     "geoip-google",
-                    "geosite-google"
+                    "geosite-google",
+                    "geosite-github"
                 ],
                 "outbound": "🔍 Google"
             },
@@ -242,7 +240,10 @@
                 "outbound": "🤖 AI"
             },
             {
-                "rule_set": "geosite-youtube",
+                "rule_set": [
+                    "geosite-youtube",
+                    "geosite-tiktok"
+                ],
                 "outbound": "📹 YouTube"
             },
             {
@@ -260,44 +261,6 @@
                 "outbound": "🎥 Netflix"
             },
             {
-                "domain_suffix": [
-                    "tktn.at",
-                    "tktn.be",
-                    "vm.talkatone.com",
-                    "tenor.com"
-                ],
-                "outbound": "🎯 Node"
-            },
-            {
-                "type": "logical",
-                "mode": "or",
-                "rules": [
-                    {
-                        "domain_suffix": [
-                            "agkn.com",
-                            "cohere.com",
-                            "crashlytics.com",
-                            "inmobi.com",
-                            "inner-active.mobi",
-                            "ip-api.com",
-                            "kochava.com",
-                            "mobilefuse.com",
-                            "talkatone.com"
-                        ]
-                    },
-                    {
-                        "ip_cidr": [
-                            "205.164.56.0/24",
-                            "216.172.154.0/24",
-                            "50.117.27.0/24",
-                            "63.251.124.0/24",
-                            "69.46.75.0/24"
-                        ]
-                    }
-                ],
-                "outbound": "🎯 Direct"
-            },
-            {
                 "domain_regex": [
                     "^(.+\\.)?kaspersky\\.com$"
                 ],
@@ -309,8 +272,8 @@
             },
             {
                 "rule_set": [
-                    "geosite-cn",
-                    "geoip-cn"
+                    "geoip-cn",
+                    "geosite-cn"
                 ],
                 "outbound": "🎯 Direct"
             }

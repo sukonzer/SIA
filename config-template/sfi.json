@@ -81,7 +81,6 @@
                     }
                 ],
                 "server": "proxy_dns",
-                "strategy": "ipv4_only",
                 "client_subnet": "221.131.143.0/24"
             },
             {
@@ -89,7 +88,6 @@
                 "server": "direct_dns"
             }
         ],
-        "strategy": "ipv4_only",
         "independent_cache": true
     },
     "inbounds": [

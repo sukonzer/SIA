@@ -53,14 +53,6 @@
                 "server": "proxy_dns"
             },
             {
-                "query_type": [
-                    "A",
-                    "AAAA"
-                ],
-                "server": "fakeip",
-                "rewrite_ttl": 1
-            },
-            {
                 "domain_suffix": [
                     "services.googleapis.cn",
                     "googleapis.cn",
@@ -86,6 +78,14 @@
             {
                 "rule_set": "geosite-cn",
                 "server": "direct_dns"
+            },
+            {
+                "query_type": [
+                    "A",
+                    "AAAA"
+                ],
+                "server": "fakeip",
+                "rewrite_ttl": 1
             }
         ],
         "independent_cache": true

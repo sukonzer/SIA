@@ -1,7 +1,6 @@
 {
     "log": {
-        "disabled": false,
-        "level": "warn",
+        "level": "trace",
         "timestamp": true
     },
     "experimental": {
@@ -21,7 +20,7 @@
     },
     "ntp": {
         "enabled": true,
-        "server": "time.apple.com",
+        "server": "ntp.aliyun.com",
         "server_port": 123,
         "interval": "30m"
     },
@@ -41,7 +40,7 @@
             },
             {
                 "tag": "proxy_dns",
-                "type": "h3",
+                "type": "https",
                 "server": "dns.google",
                 "domain_resolver": "hosts_dns",
                 "detour": "🎯 Node"
@@ -69,8 +68,7 @@
                     "doh.pub": [
                         "1.12.12.21",
                         "120.53.53.53",
-                        "2402:4e00::",
-                        "2402:4e00:1::"
+                        "2402:4e00::"
                     ],
                     "dns.google": [
                         "8.8.8.8",
@@ -90,11 +88,22 @@
         "rules": [
             {
                 "clash_mode": "Direct",
-                "server": "direct_dns"
+                "server": "local_dns"
             },
             {
                 "clash_mode": "Global",
                 "server": "proxy_dns"
+            },
+            {
+                "rule_set": "fakeip-filter",
+                "server": "direct_dns"
+            },
+            {
+                "query_type": [
+                    "SVCB",
+                    "HTTPS"
+                ],
+                "action": "predefined"
             },
             {
                 "query_type": "PTR",
@@ -102,13 +111,40 @@
             },
             {
                 "query_type": [
-                    "SVCB",
-                    "HTTPS"
+                    "A",
+                    "AAAA"
                 ],
-                "action": "reject"
+                "rule_set": "geosite-geolocation-!cn",
+                "server": "fakeip_dns"
             },
             {
                 "rule_set": "geosite-cn",
+                "server": "direct_dns"
+            },
+            {
+                "action": "evaluate",
+                "server": "proxy_dns",
+                "client_subnet": "221.131.143.0/24"
+            },
+            {
+                "type": "logical",
+                "mode": "or",
+                "rules": [
+                    {
+                        "match_response": true,
+                        "ip_is_private": true
+                    }
+                ],
+                "action": "respond"
+            },
+            {
+                "match_response": true,
+                "ip_accept_any": true,
+                "action": "respond"
+            },
+            {
+                "match_response": true,
+                "rule_set": "geoip-cn",
                 "server": "direct_dns"
             },
             {
@@ -121,9 +157,10 @@
             }
         ],
         "final": "proxy_dns",
-        "independent_cache": true,
         "strategy": "prefer_ipv4",
-        "client_subnet": "221.131.143.0/24"
+        "optimistic": true,
+        "reverse_mapping": true,
+        "cache_capacity": 16000
     },
     "inbounds": [
         {
@@ -205,13 +242,13 @@
                     "ip.sb",
                     "iplark.com",
                     "speedtest.net",
-                    "fiber.google.com"
+                    "fiber.google.com",
+                    "fast.com"
                 ],
                 "outbound": "🔀 Other"
             },
             {
                 "rule_set": [
-                    "geoip-google",
                     "geosite-google",
                     "geosite-github"
                 ],
@@ -233,22 +270,16 @@
                 "outbound": "📹 YouTube"
             },
             {
-                "rule_set": [
-                    "geoip-telegram",
-                    "geosite-telegram"
-                ],
+                "rule_set": "geosite-telegram",
                 "outbound": "📲 Telegram"
             },
             {
-                "rule_set": [
-                    "geoip-netflix",
-                    "geosite-netflix"
-                ],
+                "rule_set": "geosite-netflix",
                 "outbound": "🎥 Netflix"
             },
             {
                 "domain_regex": [
-                    "^(.+\\.)?kaspersky\\.com$"
+                    "^(.+\\.)?kaspersky(?:-labs)?\\.com$"
                 ],
                 "outbound": "🎯 Direct"
             },
@@ -257,14 +288,36 @@
                 "outbound": "🎯 Node"
             },
             {
-                "rule_set": [
-                    "geoip-cn",
-                    "geosite-cn"
-                ],
+                "rule_set": "geosite-cn",
+                "outbound": "🎯 Direct"
+            },
+            {
+                "action": "resolve"
+            },
+            {
+                "rule_set": "geoip-google",
+                "outbound": "🔍 Google"
+            },
+            {
+                "rule_set": "geoip-telegram",
+                "outbound": "📲 Telegram"
+            },
+            {
+                "rule_set": "geoip-netflix",
+                "outbound": "🎥 Netflix"
+            },
+            {
+                "rule_set": "geoip-cn",
                 "outbound": "🎯 Direct"
             }
         ],
         "rule_set": [
+            {
+                "tag": "fakeip-filter",
+                "type": "remote",
+                "format": "binary",
+                "url": "https://gh-proxy.com/github.com/DustinWin/ruleset_geodata/releases/download/sing-box-ruleset/fakeip-filter.srs"
+            },
             {
                 "tag": "geosite-ai",
                 "type": "remote",
@@ -380,8 +433,8 @@
             "tag": "🤖 AI",
             "type": "selector",
             "outbounds": [
-                "🇸🇬 SGP",
                 "🇺🇲 USA",
+                "🇸🇬 SGP",
                 "🌐 Proxy"
             ]
         },

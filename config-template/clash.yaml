@@ -49,7 +49,7 @@ proxies:
     type: direct
     udp: true
 
-pr: &pr {type: select, proxies: [🚀 节点选择, ♻️ 自动选择, ☢ 负载均衡-散列, ☢ 负载均衡-轮询, 🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, 🧿 其它,🟢 直连]}
+pr: &pr {type: select, proxies: [🚀 节点选择, 🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, ☢ 负载均衡-散列, ☢ 负载均衡-轮询, ♻️ 自动选择, 🧿 其它, 🟢 直连]}
 quick: &quick {type: select, proxies: [🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, 🇸🇬 新加坡, 🇯🇵 日本, 🇰🇷 韩国, 🇭🇰 香港, 🇹🇼 台湾, 🌐 全部节点]}
 best: &best {type: url-test, url: https://www.gstatic.com/generate_204, interval: 300, tolerance: 50, lazy: true, include-all: true}
   
@@ -57,10 +57,8 @@ best: &best {type: url-test, url: https://www.gstatic.com/generate_204, interval
 proxy-groups:
   - {name: 🔗 链式-落地, type: select, proxies: [🏡 住宅|机房, 🇺🇲 美国, 🇩🇪 德国, 🇯🇵 日本, 🇭🇰 香港]}
   - {name: 🏡 住宅|机房, type: select, include-all: true, filter: "🏡|🏢"}
-  - {name: 🚀 节点选择, type: select, proxies: [☢ 负载均衡-散列, ☢ 负载均衡-轮询, ♻️ 自动选择, 🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, 🧿 其它, 🟢 直连]}
+  - {name: 🚀 节点选择, type: select, proxies: [🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, ☢ 负载均衡-散列, ☢ 负载均衡-轮询, ♻️ 自动选择, 🧿 其它, 🟢 直连]}
   - {name: 🌐 全部节点, type: select, include-all: true, filter: "^(?!.*(🟢|原生地址|官网|到期|重置|剩余|流量)).*$" }
-  - {name: ☢ 负载均衡-散列, type: load-balance, strategy: consistent-hashing, interval:180, <<: *best, filter: "^(?!.*(🏡|🟢|原生|官网|到期|重置)).*$" }
-  - {name: ☢ 负载均衡-轮询, type: load-balance, strategy: round-robin, interval:180, <<: *best, filter: "^(?!.*(🏡|🟢|原生|官网|到期|重置)).*$" }
   #应用分流
   - {name: 📹 YouTube, <<: *pr }
   - {name: 🍀 Google, <<: *quick }
@@ -80,7 +78,9 @@ proxy-groups:
   - {name: 🇺🇲 美国, type: select, include-all: true, filter: "美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States"}
   - {name: 🇬🇧 英国, type: select, include-all: true, filter: "英国|Great Britain" }
   - {name: 🇩🇪 德国, type: select, include-all: true, filter: "DE|德国|Germany" }
-  - {name: 🧿 其它, type: select, proxies: [♻️ 自动选择, 🌐 全部节点, 🔗 链式-落地]}
+  - {name: ☢ 负载均衡-散列, type: load-balance, strategy: consistent-hashing, interval:180, <<: *best, filter: "^(?!.*(🏡|🟢|原生|官网|到期|重置)).*$" }
+  - {name: ☢ 负载均衡-轮询, type: load-balance, strategy: round-robin, interval:180, <<: *best, filter: "^(?!.*(🏡|🟢|原生|官网|到期|重置)).*$" }
+  - {name: 🧿 其它, type: select, proxies: [🌐 全部节点, ♻️ 自动选择, 🔗 链式-落地]}
   - {name: ♻️ 自动选择, <<: *best, filter: "^(?!.*(🏡|🟢|原生地址|官网|到期|重置|剩余|流量)).*$"}
 
 

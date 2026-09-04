@@ -129,22 +129,24 @@
           "tracking.miui.com",
           "steamserver.net"
         ],
-        "rule_set": [
-          "geosite-private"
-        ],
-        "server": "local"
+        "rule_set": "geosite-private",
+        "server": "local_dns"
       },
       {
         "rule_set": "geosite-cn",
         "server": "direct_dns"
       },
       {
-        "action": "evaluate",
+        "rule_set": "geosite-geolocation-!cn",
         "server": "proxy_dns"
       },
       {
-        "match_response": true,
-        "action": "respond"
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "fakeip_dns",
+        "rewrite_ttl": 1
       }
     ],
     "strategy": "ipv4_only",

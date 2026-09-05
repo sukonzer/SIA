@@ -7,112 +7,39 @@
   "dns": {
     "servers": [
       {
-        "type": "https",
-        "tag": "proxy_server_dns",
-        "domain_resolver": "hosts_dns",
-        "server": "doh.pub"
+        "tag": "local",
+        "type": "local"
       },
       {
-        "type": "quic",
         "tag": "direct_dns",
-        "domain_resolver": "hosts_dns",
-        "server": "dns.alidns.com"
-      },
-      {
-        "type": "h3",
-        "tag": "proxy_dns",
-        "detour": "🎯 Node",
-        "domain_resolver": "hosts_dns",
-        "server": "dns.google"
-      },
-      {
-        "type": "local",
-        "tag": "local_dns"
-      },
-      {
-        "type": "fakeip",
-        "tag": "fakeip_dns",
-        "inet4_range": "198.18.0.0/15",
-        "inet6_range": "fc00::/64"
-      },
-      {
-        "type": "hosts",
-        "tag": "hosts_dns",
-        "predefined": {
-          "dns.alidns.com": [
-            "223.5.5.5",
-            "223.6.6.6",
-            "2400:3200::1",
-            "2400:3200:baba::1"
-          ],
-          "doh.pub": [
-            "1.12.12.21",
-            "120.53.53.53",
-            "2402:4e00::"
-          ],
-          "dns.google": [
-            "8.8.8.8",
-            "8.8.4.4",
-            "2001:4860:4860::8888",
-            "2001:4860:4860::8844"
-          ],
-          "cloudflare-dns.com": [
-            "104.16.248.249",
-            "104.16.249.249",
-            "2606:4700:4700::1111",
-            "2606:4700:4700::1001"
-          ]
+        "type": "https",
+        "server": "223.5.5.5",
+        "tls": {
+          "server_name": "dns.alidns.com"
         }
+      },
+      {
+        "tag": "proxy_server_dns",
+        "type": "https",
+        "server": "1.12.12.12",
+        "tls": {
+          "server_name": "doh.pub"
+        }
+      },
+      {
+        "tag": "proxy_dns",
+        "type": "https",
+        "server": "8.8.8.8",
+        "detour": "🎯 Node"
+      },
+      {
+        "tag": "fakeip_dns",
+        "type": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
       }
     ],
     "rules": [
-      {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          {
-            "query_type": "AAAA"
-          },
-          {
-            "default_interface_address": "2000::/3",
-            "invert": true
-          }
-        ],
-        "action": "reject"
-      },
-      {
-        "domain_suffix": [
-          "cloudflare-ech.com"
-        ],
-        "server": "direct_dns"
-      },
-      {
-        "clash_mode": "Direct",
-        "server": "direct_dns"
-      },
-      {
-        "clash_mode": "Global",
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "server": "fakeip_dns",
-        "rewrite_ttl": 1
-      },
-      {
-        "clash_mode": "Global",
-        "action": "route",
-        "server": "proxy_dns"
-      },
-      {
-        "query_type": [
-          "SVCB",
-          "HTTPS",
-          "PTR"
-        ],
-        "action": "predefined",
-        "rcode": "NOERROR"
-      },
       {
         "domain_suffix": [
           ".local",
@@ -130,15 +57,48 @@
           "steamserver.net"
         ],
         "rule_set": "geosite-private",
-        "server": "local_dns"
+        "server": "local"
+      },
+      {
+        "domain_suffix": [
+          "cloudflare-ech.com"
+        ],
+        "server": "direct_dns"
+      },
+      {
+        "clash_mode": "direct",
+        "server": "direct_dns"
+      },
+      {
+        "query_type": "HTTPS",
+        "action": "predefined",
+        "rcode": "NOERROR"
+      },
+      {
+        "clash_mode": "global",
+        "server": "fakeip_dns"
       },
       {
         "rule_set": "geosite-cn",
         "server": "direct_dns"
       },
       {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "action": "evaluate",
+        "server": "direct_dns"
+      },
+      {
+        "match_response": true,
+        "rule_set": "geoip-cn",
+        "action": "respond"
+      },
+      {
+        "query_type": "AAAA",
         "rule_set": "geosite-geolocation-!cn",
-        "server": "proxy_dns"
+        "action": "reject"
       },
       {
         "query_type": [
@@ -149,13 +109,9 @@
         "rewrite_ttl": 1
       }
     ],
-    "strategy": "ipv4_only",
     "final": "proxy_dns",
-    "cache_capacity": 16384,
-    "optimistic": {
-      "enabled": true,
-      "timeout": "5m0s"
-    }
+    "optimistic": true,
+    "reverse_mapping": true
   },
   "http_clients": [
     {
@@ -173,25 +129,21 @@
   },
   "inbounds": [
     {
-      "type": "tun",
-      "address": [
-        "172.19.0.0/30",
-        "fdfe:dcba:9876::/126"
-      ],
-      "auto_route": true,
-      "stack": "mixed",
-      "platform": {
-        "http_proxy": {
-          "enabled": true,
-          "server": "127.0.0.1",
-          "server_port": 7890
-        }
-      }
+      "tag": "mixed-in",
+      "type": "mixed",
+      "listen": "::",
+      "listen_port": 7890,
+      "set_system_proxy": false
     },
     {
-      "type": "mixed",
-      "listen": "127.0.0.1",
-      "listen_port": 7890
+      "tag": "tun-in",
+      "type": "tun",
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "auto_route": true,
+      "strict_route": true
     }
   ],
   "outbounds": [
@@ -361,24 +313,7 @@
   "route": {
     "rules": [
       {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          {
-            "ip_version": 6
-          },
-          {
-            "default_interface_address": [
-              "2000::/3"
-            ],
-            "invert": true
-          }
-        ],
-        "action": "reject"
-      },
-      {
-        "action": "sniff",
-        "timeout": "500ms"
+        "action": "sniff"
       },
       {
         "type": "logical",
@@ -394,28 +329,16 @@
         "action": "hijack-dns"
       },
       {
-        "type": "logical",
-        "mode": "and",
-        "rules": [
-          {
-            "ip_is_private": true
-          },
-          {
-            "ip_cidr": [
-              "198.18.0.0/15",
-              "fc00::/64"
-            ],
-            "invert": true
-          }
-        ],
+        "port": 853,
+        "action": "reject",
+        "no_drop": true
+      },
+      {
+        "clash_mode": "direct",
         "outbound": "🎯 Direct"
       },
       {
-        "clash_mode": "Direct",
-        "outbound": "🎯 Direct"
-      },
-      {
-        "clash_mode": "Global",
+        "clash_mode": "global",
         "outbound": "🌐 Proxy"
       },
       {
@@ -432,7 +355,6 @@
       },
       {
         "rule_set": [
-          "geoip-google",
           "geosite-google",
           "geosite-github"
         ],
@@ -454,17 +376,11 @@
         "outbound": "📹 YouTube"
       },
       {
-        "rule_set": [
-          "geoip-telegram",
-          "geosite-telegram"
-        ],
+        "rule_set": "geosite-telegram",
         "outbound": "📲 Telegram"
       },
       {
-        "rule_set": [
-          "geoip-netflix",
-          "geosite-netflix"
-        ],
+        "rule_set": "geosite-netflix",
         "outbound": "🎥 Netflix"
       },
       {
@@ -473,14 +389,51 @@
       },
       {
         "rule_set": "geosite-geolocation-!cn",
+        "protocol": [
+          "quic",
+          "stun"
+        ],
+        "action": "reject",
+        "no_drop": true
+      },
+      {
+        "rule_set": "geosite-geolocation-!cn",
         "outbound": "🎯 Node"
       },
       {
-        "rule_set": [
-          "geoip-cn",
-          "geosite-cn"
-        ],
+        "rule_set": "geosite-cn",
         "outbound": "🎯 Direct"
+      },
+      {
+        "action": "resolve"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "🎯 Direct"
+      },
+      {
+        "rule_set": "geoip-google",
+        "outbound": "🔍 Google"
+      },
+      {
+        "rule_set": "geoip-telegram",
+        "outbound": "📲 Telegram"
+      },
+      {
+        "rule_set": "geoip-netflix",
+        "outbound": "🎥 Netflix"
+      },
+      {
+        "rule_set": "geoip-cn",
+        "outbound": "🎯 Direct"
+      },
+      {
+        "protocol": [
+          "quic",
+          "stun"
+        ],
+        "action": "reject",
+        "no_drop": true
       }
     ],
     "rule_set": [

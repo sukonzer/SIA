@@ -74,19 +74,16 @@
         "rule_set": [
           "geosite-microsoft",
           "geosite-apple",
-          "geosite-cn"
+          "geosite-geolocation-cn"
         ],
         "server": "ali_dns"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
         "rule_set": "geosite-geolocation-!cn",
         "invert": true,
         "action": "evaluate",
-        "server": "ali_dns"
+        "server": "google_dns",
+        "client_subnet": "114.114.114.114/24"
       },
       {
         "rule_set": "geoip-cn",
@@ -385,7 +382,7 @@
           "geosite-private",
           "geosite-microsoft",
           "geosite-apple",
-          "geosite-cn"
+          "geosite-geolocation-cn"
         ],
         "outbound": "🎯 Direct"
       },
@@ -470,13 +467,13 @@
       },
       {
         "type": "remote",
-        "tag": "geosite-cn",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs"
+        "tag": "geosite-geolocation-!cn",
+        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs"
       },
       {
         "type": "remote",
-        "tag": "geosite-geolocation-!cn",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs"
+        "tag": "geosite-geolocation-cn",
+        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-cn.srs"
       },
       {
         "type": "remote",

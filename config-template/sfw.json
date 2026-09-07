@@ -74,7 +74,7 @@
         "rule_set": [
           "geosite-microsoft",
           "geosite-apple",
-          "geosite-geolocation-cn"
+          "geosite-cn"
         ],
         "server": "ali_dns"
       },
@@ -142,10 +142,8 @@
       "type": "selector",
       "outbounds": [
         "🌐 Proxy",
-        "🔯 Nearby",
-        "🇺🇲 USA",
         "🚄 Auto",
-        "🎯 Direct"
+        "🟢 Direct"
       ]
     },
     {
@@ -171,8 +169,8 @@
       "tag": "🤖 AI",
       "type": "selector",
       "outbounds": [
-        "🇸🇬 SGP",
         "🇺🇲 USA",
+        "🇸🇬 SGP",
         "🌐 Proxy"
       ]
     },
@@ -232,12 +230,20 @@
       ]
     },
     {
+      "tag": "🏢 Pure",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "include": [
+        "🏡|🏢"
+      ]
+    },
+    {
       "tag": "🔀 Other",
       "type": "selector",
       "outbounds": [
         "🌐 Proxy",
-        "🔯 Nearby",
-        "🇺🇲 USA",
         "🚄 Auto"
       ]
     },
@@ -271,7 +277,7 @@
       "tolerance": 50
     },
     {
-      "tag": "🎯 Direct",
+      "tag": "🟢 Direct",
       "type": "direct"
     }
   ],
@@ -300,7 +306,7 @@
       },
       {
         "clash_mode": "direct",
-        "outbound": "🎯 Direct"
+        "outbound": "🟢 Direct"
       },
       {
         "clash_mode": "global",
@@ -350,20 +356,20 @@
       },
       {
         "domain_regex": "^(.+\\.)?kaspersky[-a-zA-Z0-9]*\\.com$",
-        "outbound": "🎯 Direct"
+        "outbound": "🟢 Direct"
       },
       {
         "rule_set": [
           "geosite-private",
           "geosite-microsoft",
           "geosite-apple",
-          "geosite-geolocation-cn"
+          "geosite-cn"
         ],
-        "outbound": "🎯 Direct"
+        "outbound": "🟢 Direct"
       },
       {
         "rule_set": "geoip-cn",
-        "outbound": "🎯 Direct"
+        "outbound": "🟢 Direct"
       },
       {
         "protocol": "quic",
@@ -447,8 +453,8 @@
       },
       {
         "type": "remote",
-        "tag": "geosite-geolocation-cn",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-cn.srs"
+        "tag": "geosite-cn",
+        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs"
       },
       {
         "type": "remote",

@@ -482,6 +482,13 @@
     "default_domain_resolver": "dnspod_dns",
     "default_http_client": "default"
   },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true,
+      "store_dns": true
+    }
+  },
   "services": [
     {
       "type": "api",

@@ -78,8 +78,8 @@ proxy-groups:
   - {name: 🇺🇲 美国, type: select, include-all: true, filter: "美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States"}
   - {name: 🇬🇧 英国, type: select, include-all: true, filter: "英国|Great Britain" }
   - {name: 🇩🇪 德国, type: select, include-all: true, filter: "DE|德国|Germany" }
-  - {name: ☢ 负载均衡-散列, type: load-balance, strategy: consistent-hashing, interval:180, <<: *best, filter: "^(?!.*(🏡|🟢|原生|官网|到期|重置)).*$" }
-  - {name: ☢ 负载均衡-轮询, type: load-balance, strategy: round-robin, interval:180, <<: *best, filter: "^(?!.*(🏡|🟢|原生|官网|到期|重置)).*$" }
+  - {name: ☢ 负载均衡-散列, type: load-balance, strategy: consistent-hashing, interval:180, <<: *best, exclude-filter: "🏡|🟢|原生|官网|到期|重置|^USW-oregon" }
+  - {name: ☢ 负载均衡-轮询, type: load-balance, strategy: round-robin, interval:180, <<: *best, exclude-filter: "🏡|🟢|原生|官网|到期|重置|^USW-oregon" }
   - {name: 🧿 其它, type: select, proxies: [🌐 全部节点, ♻️ 自动选择, 🔗 链式-落地]}
   - {name: ♻️ 自动选择, <<: *best, filter: "^(?!.*(🏡|🟢|原生地址|官网|到期|重置|剩余|流量)).*$"}
 

@@ -66,8 +66,8 @@ best: &best {type: url-test, url: https://www.gstatic.com/generate_204, interval
   
 # 策略组
 proxy-groups:
-  - {name: 🔗 链式-落地, type: select, proxies: [🏡 住宅|机房, 🇺🇲 美国, 🇩🇪 德国, 🇯🇵 日本, 🇭🇰 香港]}
-  - {name: 🏡 住宅|机房, type: select, include-all: true, filter: "🏡|🏢"}
+  - {name: 🔗 链式-落地, type: select, proxies: [🏡|🏢, 🇺🇲 美国, 🇩🇪 德国, 🇯🇵 日本, 🇭🇰 香港]}
+  - {name: 🏡|🏢, type: select, include-all: true, filter: "🏡|🏢"}
   - {name: 🚀 节点选择, type: select, proxies: [🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, ☢ 负载均衡-散列, ☢ 负载均衡-轮询, ♻️ 自动选择, 🧿 其它, 🟢 直连]}
   - {name: 🌐 全部节点, type: select, include-all: true, filter: "^(?!.*(🟢|原生地址|官网|到期|重置|剩余|流量)).*$" }
   #应用分流

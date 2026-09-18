@@ -2,7 +2,6 @@
 external-controller: 127.0.0.1:9090
 mixed-port: 7890
 tcp-concurrent: true
-allow-lan: false
 mode: rule
 log-level: info
 ipv6: true
@@ -22,11 +21,17 @@ tun:
 dns:
   enable: true
   prefer-h3: true
-  ipv6: false
+  ipv6: true
   enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-range6: fc00::/18
+  fake-ip-filter-mode: rule
   fake-ip-filter:
-    - geosite:connectivity-check
-    - geosite:private
+    - "GEOSITE,private,real-ip"
+    - "GEOSITE,gfw,fake-ip"
+    - "GEOSITE,geolocation-!cn,fake-ip"
+    - "GEOSITE,cn,real-ip"
+    - "MATCH,fake-ip"
   nameserver:
     - quic://223.5.5.5
     - quic://119.29.29.29
@@ -86,8 +91,9 @@ proxy-groups:
 
 # 规则
 rules:
-  - AND,((NETWORK,UDP),(DST-PORT,443),(OR,((RULE-SET,geolocation_!cn),(NOT,((RULE-SET,cn_ip)))))),REJECT
+  - AND,((NETWORK,UDP),(DST-PORT,443),(OR,((GEOSITE,geolocation-!cn),(NOT,((GEOIP,CN)))))),REJECT
   - RULE-SET,category_ads_all,REJECT
+  - GEOSITE,private,🟢 直连
   # 业务分流- domain
   - RULE-SET,ai_domain,🤖 AI
   - RULE-SET,youtube_domain,📹 YouTube
@@ -113,21 +119,19 @@ rules:
   - DOMAIN-SUFFIX,tktn.be,🚀 节点选择
   - DOMAIN-SUFFIX,vm.talkatone.com,🚀 节点选择
   - DOMAIN-SUFFIX,tenor.com,🚀 节点选择
-  - RULE-SET,talkatone_domain,DIRECT
-  - IP-CIDR,205.164.56.0/24,DIRECT,no-resolve
-  - IP-CIDR,216.172.154.0/24,DIRECT,no-resolve
-  - IP-CIDR,50.117.27.0/24,DIRECT,no-resolve
-  - IP-CIDR,63.251.124.0/24,DIRECT,no-resolve
-  - IP-CIDR,69.46.75.0/24,DIRECT,no-resolve
-  - DOMAIN-REGEX,^(.+\.)?kaspersky\.com$,🟢 直连
+  - RULE-SET,talkatone_domain,🟢 直连
+  - IP-CIDR,205.164.56.0/24,🟢 直连,no-resolve
+  - IP-CIDR,216.172.154.0/24,🟢 直连,no-resolve
+  - IP-CIDR,50.117.27.0/24,🟢 直连,no-resolve
+  - IP-CIDR,63.251.124.0/24,🟢 直连,no-resolve
+  - IP-CIDR,69.46.75.0/24,🟢 直连,no-resolve
   - OR,((DOMAIN-SUFFIX,ping0.cc),(DOMAIN-SUFFIX,ippure.com),(DOMAIN-SUFFIX,ip.sb),(DOMAIN-SUFFIX,iplark.com)),🧿 其它
   
   # 绕过大陆
   - DOMAIN-SUFFIX,tos-d-cm-hl.snssdk.com,🟢 直连
-  - RULE-SET,geolocation_!cn,🚀 节点选择
-  - DOMAIN-SUFFIX,browserleaks.com,🚀 节点选择
-  - RULE-SET,geosite_cn,🟢 直连
-  - RULE-SET,cn_ip,🟢 直连,no-resolve
+  - GEOSITE,geolocation-!cn,🚀 节点选择
+  - GEOSITE,cn,🟢 直连
+  - GEOIP,CN,🟢 直连,no-resolve
   - MATCH,🚀 节点选择
   
 # 规则集
@@ -150,10 +154,7 @@ rule-providers:
   tiktok_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs" }
   talkatone_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/talkatone.mrs"}
   x_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}
-  geolocation_!cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs" }
-  geosite_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
 
-  cn_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs" }
   google_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs" }
   ai_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/ai.mrs" }
   telegram_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs" }

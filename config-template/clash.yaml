@@ -30,6 +30,9 @@ dns:
     - "GEOSITE,private,real-ip"
     - "GEOSITE,gfw,fake-ip"
     - "GEOSITE,geolocation-!cn,fake-ip"
+    - "GEOIP,apple_domain,real-ip"
+    - "GEOIP,bilibili_domain,real-ip"
+    - "GEOIP,microsoft_domain,real-ip"
     - "GEOSITE,cn,real-ip"
     - "MATCH,fake-ip"
   nameserver:

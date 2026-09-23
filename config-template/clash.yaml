@@ -82,9 +82,9 @@ proxy-groups:
   - {name: 🇩🇪 德国, type: select, include-all: true, filter: "DE|德国|Germany" }
   - {name: ☢ 负载均衡-散列, type: load-balance, strategy: consistent-hashing, interval:180, <<: *best, exclude-filter: "🏡|🟢|原生地址|官网|到期|重置|^USW-oregon|^cf-|^US-cogent" }
   - {name: ☢ 负载均衡-轮询, type: load-balance, strategy: round-robin, interval:180, <<: *best, exclude-filter: "🏡|🟢|原生地址|官网|到期|重置|^USW-oregon|^cf-|^US-cogent" }
-  - {name: 🔗 链式-落地, type: select, proxies: [🏡|🏢, 🇺🇲 美国, 🇩🇪 德国, 🇯🇵 日本, 🇭🇰 香港]}
+  - {name: 🔗 落地, type: select, proxies: [🏡|🏢, 🇺🇲 美国, 🇩🇪 德国, 🇯🇵 日本, 🇭🇰 香港]}
   - {name: 🏡|🏢, type: select, include-all: true, filter: "🏡|🏢"}
-  - {name: 🧿 其它, type: select, proxies: [🌐 全部节点, ♻️ 自动选择, 🔗 链式-落地]}
+  - {name: 🧿 其它, type: select, proxies: [🌐 全部节点, ♻️ 自动选择, 🔗 落地]}
   - {name: ♻️ 自动选择, <<: *best, exclude-filter: "🏡|🟢|原生地址|官网|到期|重置|剩余|流量" }
   - {name: 🚀 节点选择, type: select, proxies: [🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, ♻️ 自动选择, 🧿 其它, 🟢 直连]}
 
@@ -106,6 +106,7 @@ rules:
   - RULE-SET,paypal_domain,💶 PayPal
   - RULE-SET,apple_domain,🟢 直连
   - RULE-SET,bilibili_domain,🟢 直连
+  - RULE-SET,microsoft_domain,🟢 直连
 
   # 业务分流- ip
   - RULE-SET,ai_ip,🤖 AI,no-resolve
@@ -114,7 +115,7 @@ rules:
   - RULE-SET,telegram_ip,📲 Telegram,no-resolve
 
   # 特殊分流
-  - DOMAIN-REGEX,^relay-[\w-]+\.tktn\.be$,🔗 链式-落地
+  - DOMAIN-REGEX,^relay-[\w-]+\.tktn\.be$,🔗 落地
   - DOMAIN-SUFFIX,tktn.at,🚀 节点选择
   - DOMAIN-SUFFIX,tktn.be,🚀 节点选择
   - DOMAIN-SUFFIX,vm.talkatone.com,🚀 节点选择
@@ -151,6 +152,7 @@ rule-providers:
   paypal_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/paypal.mrs" }
   github_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
   apple_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs" }
+  microsoft_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs" }
   tiktok_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs" }
   talkatone_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/talkatone.mrs"}
   x_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}

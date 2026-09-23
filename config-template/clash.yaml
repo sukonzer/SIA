@@ -28,11 +28,10 @@ dns:
   fake-ip-filter-mode: rule
   fake-ip-filter:
     - "GEOSITE,private,real-ip"
+    - "RULE-SET,apple_domain,real-ip"
+    - "RULE-SET,bilibili_domain,real-ip"
+    - "RULE-SET,microsoft_domain,real-ip"
     - "GEOSITE,gfw,fake-ip"
-    - "GEOSITE,apple_domain,real-ip"
-    - "GEOSITE,bilibili_domain,real-ip"
-    - "GEOSITE,microsoft_domain,real-ip"
-    - "GEOSITE,geolocation-!cn,fake-ip"
     - "GEOSITE,cn,real-ip"
     - "MATCH,fake-ip"
   nameserver:
@@ -133,7 +132,7 @@ rules:
   
   # 绕过大陆
   - DOMAIN-SUFFIX,tos-d-cm-hl.snssdk.com,🟢 直连
-  - GEOSITE,geolocation-!cn,🚀 节点选择
+  - GEOSITE,gfw,🚀 节点选择
   - GEOSITE,cn,🟢 直连
   - GEOIP,CN,🟢 直连,no-resolve
   - MATCH,🚀 节点选择

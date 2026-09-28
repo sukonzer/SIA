@@ -8,107 +8,118 @@
     "servers": [
       {
         "tag": "local",
-        "type": "local"
+        "type": "local",
+        "prefer_go": true
       },
       {
-        "tag": "ali_dns",
+        "tag": "ali",
         "type": "https",
-        "server": "223.5.5.5",
-        "tls": {
-          "server_name": "dns.alidns.com"
-        }
+        "server": "223.5.5.5"
       },
       {
-        "tag": "dnspod_dns",
+        "tag": "tx",
         "type": "https",
-        "server": "1.12.12.12",
-        "tls": {
-          "server_name": "doh.pub"
-        }
+        "server": "doh.pub",
+        "domain_resolver": "hosts"
       },
       {
-        "tag": "google_dns",
+        "tag": "google",
         "type": "https",
         "server": "8.8.8.8",
         "detour": "🎯 Node"
       },
       {
-        "tag": "fakeip_dns",
+        "tag": "fakeip",
         "type": "fakeip",
-        "inet4_range": "198.18.0.0/15",
-        "inet6_range": "fc00::/18"
+        "inet4_range": "198.19.0.0/16"
+      },
+      {
+        "type": "hosts",
+        "tag": "hosts",
+        "predefined": {
+          "doh.pub": [
+            "1.12.12.21",
+            "120.53.53.53"
+          ]
+        }
       }
     ],
     "rules": [
       {
-        "domain_suffix": [
-          ".local",
-          ".lan",
-          ".home",
-          "router.asus.com",
-          "tplinkwifi.net",
-          "tplinklogin.net",
-          "miwifi.com",
-          "peiluyou.com",
-          "tendawifi.com",
-          "market.xiaomi.com",
-          "lancache.steamcontent.com",
-          "tracking.miui.com",
-          "steamserver.net"
+        "query_type": [
+          "HTTPS",
+          "SVCB"
         ],
-        "rule_set": "geosite-private",
-        "server": "local"
+        "action": "reject"
       },
       {
-        "clash_mode": "direct",
-        "server": "ali_dns"
+        "clash_mode": "Direct",
+        "server": "ali"
       },
       {
-        "clash_mode": "global",
-        "server": "fakeip_dns"
+        "clash_mode": "Global",
+        "server": "fakeip"
       },
       {
-        "domain_suffix": [
-          "cloudflare-ech.com"
-        ],
         "rule_set": [
-          "geosite-microsoft",
-          "geosite-apple",
-          "geosite-cn"
+          "fakeipfilter-cn",
+          "geosite-cn",
+          "geosite-microsoft@cn",
+          "geosite-apple@cn",
+          "geosite-private"
         ],
-        "server": "ali_dns"
+        "server": "ali"
       },
       {
-        "rule_set": "geosite-geolocation-!cn",
-        "invert": true,
+        "rule_set": "fakeipfilter-!cn",
+        "server": "google"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "query_type": [
+              "A",
+              "AAAA"
+            ]
+          },
+          {
+            "rule_set": "geosite-geolocation-!cn",
+            "invert": true
+          }
+        ],
         "action": "evaluate",
-        "server": "google_dns",
-        "client_subnet": "114.114.114.114/24"
+        "server": "google",
+        "client_subnet": "223.5.5.0/24",
+        "timeout": "2s"
       },
       {
-        "rule_set": "geoip-cn",
         "match_response": true,
-        "action": "respond"
+        "rule_set": "geoip-cn",
+        "server": "ali"
       },
       {
         "query_type": [
           "A",
           "AAAA"
         ],
-        "server": "fakeip_dns",
+        "server": "fakeip",
         "rewrite_ttl": 1
       }
     ],
-    "final": "google_dns",
-    "optimistic": true,
+    "final": "google",
+    "strategy": "ipv4_only",
+    "cache_capacity": 8192,
+    "optimistic": {
+      "enabled": true
+    },
     "reverse_mapping": true
   },
   "http_clients": [
     {
-      "tag": "default",
-      "version": 2,
-      "stream_receive_window": 0,
-      "connection_receive_window": 0
+      "tag": "📥 Download",
+      "detour": "🟢 Direct"
     }
   ],
   "ntp": {
@@ -284,7 +295,26 @@
   "route": {
     "rules": [
       {
-        "action": "sniff"
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "domain_suffix": "push.apple.com"
+          },
+          {
+            "rule_set": "geoip-telegram"
+          }
+        ],
+        "invert": true,
+        "action": "sniff",
+        "sniffer": [
+          "http",
+          "tls",
+          "stun",
+          "quic",
+          "dns"
+        ],
+        "timeout": "100ms"
       },
       {
         "type": "logical",
@@ -300,229 +330,177 @@
         "action": "hijack-dns"
       },
       {
-        "port": 853,
-        "action": "reject",
-        "no_drop": true
-      },
-      {
-        "clash_mode": "direct",
+        "ip_is_private": true,
         "outbound": "🟢 Direct"
-      },
-      {
-        "clash_mode": "global",
-        "outbound": "🌐 Proxy"
-      },
-      {
-        "domain_suffix": [
-          "ping0.cc",
-          "ippure.com",
-          "ip.sb",
-          "iplark.com",
-          "speedtest.net",
-          "fiber.google.com",
-          "fast.com"
-        ],
-        "outbound": "🔀 Other"
-      },
-      {
-        "rule_set": [
-          "geosite-google",
-          "geosite-github"
-        ],
-        "outbound": "🔍 Google"
-      },
-      {
-        "domain_suffix": [
-          "integrate.api.nvidia.com",
-          "openai.good.hidns.vip"
-        ],
-        "rule_set": "geosite-ai",
-        "outbound": "🤖 AI"
-      },
-      {
-        "rule_set": [
-          "geosite-youtube",
-          "geosite-tiktok"
-        ],
-        "outbound": "📹 YouTube"
-      },
-      {
-        "rule_set": "geosite-telegram",
-        "outbound": "📲 Telegram"
-      },
-      {
-        "rule_set": "geosite-netflix",
-        "outbound": "🎥 Netflix"
-      },
-      {
-        "domain_regex": "^relay-[\\w-]+\\.tktn\\.be$",
-        "outbound": "🏢 Pure"
       },
       {
         "type": "logical",
         "mode": "or",
         "rules": [
           {
-            "domain_suffix": [
-              "agkn.com",
-              "cohere.com",
-              "crashlytics.com",
-              "inmobi.com",
-              "inner-active.mobi",
-              "ip-api.com",
-              "kochava.com",
-              "mobilefuse.com",
-              "talkatone.com"
-            ]
+            "port": 853
           },
           {
-            "ip_cidr": [
-              "205.164.56.0/24",
-              "216.172.154.0/24",
-              "50.117.27.0/24",
-              "63.251.124.0/24",
-              "69.46.75.0/24"
+            "protocol": [
+              "stun",
+              "quic"
             ]
           }
         ],
-        "outbound": "🟢 Direct"
-      },
-      {
-        "domain_regex": "^(.+\\.)?kaspersky[-a-zA-Z0-9]*\\.com$",
-        "outbound": "🟢 Direct"
-      },
-      {
-        "rule_set": [
-          "geosite-private",
-          "geosite-microsoft",
-          "geosite-apple",
-          "geosite-cn"
-        ],
-        "outbound": "🟢 Direct"
-      },
-      {
-        "rule_set": "geoip-cn",
-        "outbound": "🟢 Direct"
-      },
-      {
-        "protocol": "quic",
         "action": "reject",
         "no_drop": true
       },
       {
-        "domain_suffix": [
-          "tktn.at",
-          "tktn.be",
-          "vm.talkatone.com",
-          "tenor.com"
-        ],
-        "outbound": "🎯 Node"
+        "network": "icmp",
+        "action": "resolve"
+      },
+      {
+        "network": "icmp",
+        "outbound": "🟢 Direct"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "🟢 Direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "🌐 Proxy"
+      },
+      {
+        "rule_set": "geosite-private",
+        "outbound": "🟢 Direct"
+      },
+      {
+        "rule_set": "geosite-category-ai-!cn",
+        "outbound": "🤖 AI"
+      },
+      {
+        "rule_set": "geosite-youtube",
+        "outbound": "📹 YouTube"
+      },
+      {
+        "rule_set": "geosite-google",
+        "outbound": "🔍 Google"
+      },
+      {
+        "rule_set": "geosite-github",
+        "outbound": "🔍 Google"
+      },
+      {
+        "rule_set": "geosite-onedrive",
+        "outbound": "🟢 Direct"
+      },
+      {
+        "rule_set": "geosite-microsoft@cn",
+        "outbound": "🟢 Direct"
+      },
+      {
+        "rule_set": "geosite-apple@cn",
+        "outbound": "🟢 Direct"
+      },
+      {
+        "rule_set": "geosite-telegram",
+        "outbound": "📲 Telegram"
+      },
+      {
+        "rule_set": "geosite-tiktok",
+        "outbound": "📹 YouTube"
+      },
+      {
+        "rule_set": "geosite-netflix",
+        "outbound": "🎥 Netflix"
+      },
+      {
+        "rule_set": "geosite-paypal",
+        "outbound": "🌐 Proxy"
+      },
+      {
+        "rule_set": "geosite-binance",
+        "outbound": "🌐 Proxy"
+      },
+      {
+        "rule_set": "geosite-category-cryptocurrency",
+        "outbound": "🌐 Proxy"
+      },
+      {
+        "rule_set": "geosite-steam@cn",
+        "outbound": "🟢 Direct"
+      },
+      {
+        "rule_set": "geosite-steam",
+        "outbound": "🟢 Direct"
       },
       {
         "rule_set": "geosite-geolocation-!cn",
         "outbound": "🎯 Node"
       },
       {
-        "rule_set": "geoip-google",
-        "outbound": "🔍 Google"
+        "inbound": "mixed-in",
+        "action": "resolve"
       },
       {
         "rule_set": "geoip-telegram",
         "outbound": "📲 Telegram"
       },
       {
-        "rule_set": "geoip-netflix",
-        "outbound": "🎥 Netflix"
+        "rule_set": "geoip-cn",
+        "outbound": "🟢 Direct"
       }
     ],
     "rule_set": [
       {
+        "tag": [
+          "fakeipfilter-cn",
+          "fakeipfilter-!cn"
+        ],
         "type": "remote",
-        "tag": "geosite-ai",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-ai-!cn.srs"
+        "format": "source",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/rules/{tag}.json"
       },
       {
-        "type": "remote",
-        "tag": "geosite-youtube",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/youtube.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-google",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/google.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-github",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/github.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-telegram",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/telegram.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-tiktok",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/tiktok.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-netflix",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/netflix.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-private",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-private.srs"
-      },
-      {
-        "tag": "geosite-microsoft",
+        "tag": [
+          "geosite-category-ai-!cn",
+          "geosite-youtube",
+          "geosite-google",
+          "geosite-github",
+          "geosite-onedrive",
+          "geosite-microsoft@cn",
+          "geosite-apple@cn",
+          "geosite-telegram",
+          "geosite-tiktok",
+          "geosite-netflix",
+          "geosite-paypal",
+          "geosite-binance",
+          "geosite-category-cryptocurrency",
+          "geosite-steam@cn",
+          "geosite-steam",
+          "geosite-geolocation-!cn",
+          "geosite-cn",
+          "geosite-private"
+        ],
         "type": "remote",
         "format": "binary",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/microsoft.srs"
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/{tag}.srs"
       },
       {
-        "tag": "geosite-apple",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geosite/apple.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-geolocation-!cn",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-geolocation-!cn.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geosite-cn",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs"
-      },
-      {
-        "type": "remote",
-        "tag": "geoip-google",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/google.srs"
-      },
-      {
-        "type": "remote",
         "tag": "geoip-telegram",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/telegram.srs"
+        "type": "remote",
+        "format": "binary",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/telegram.srs"
       },
       {
-        "type": "remote",
-        "tag": "geoip-netflix",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/netflix.srs"
-      },
-      {
-        "type": "remote",
         "tag": "geoip-cn",
-        "url": "https://gh-proxy.com/raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs"
+        "type": "remote",
+        "format": "binary",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-cn.srs"
       }
     ],
     "final": "🎯 Node",
+    "default_http_client": "📥 Download",
     "auto_detect_interface": true,
-    "default_domain_resolver": "dnspod_dns",
-    "default_http_client": "default"
+    "default_domain_resolver": {
+      "server": "ali"
+    }
   },
   "experimental": {
     "cache_file": {
@@ -530,15 +508,5 @@
       "store_fakeip": true,
       "store_dns": true
     }
-  },
-  "services": [
-    {
-      "type": "api",
-      "listen": "::",
-      "listen_port": 9900,
-      "access_control_allow_origin": "*",
-      "access_control_allow_private_network": true,
-      "dashboard": true
-    }
-  ]
+  }
 }

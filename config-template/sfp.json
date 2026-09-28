@@ -1,22 +1,9 @@
 {
+  "$schema": "https://sing-box.sagernet.org/schema.json",
   "log": {
     "disabled": false,
     "level": "warn",
     "timestamp": true
-  },
-  "experimental": {
-    "clash_api": {
-      "external_controller": "0.0.0.0:9095",
-      "external_ui": "ui",
-      "secret": "",
-      "external_ui_download_url": "https://gh-proxy.com/github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
-      "default_mode": "Rule"
-    },
-    "cache_file": {
-      "enabled": true,
-      "path": "cache.db",
-      "store_fakeip": true
-    }
   },
   "ntp": {
     "enabled": true,
@@ -24,6 +11,37 @@
     "server_port": 123,
     "interval": "30m"
   },
+  "services": [
+    {
+      "type": "api",
+      "listen": "0.0.0.0",
+      "listen_port": 9090,
+      "secret": "passwd",
+      "dashboard": {
+        "enabled": true,
+        "path": "/etc/sing-box/dashboard"
+      }
+    }
+  ],
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "/etc/sing-box/cache.db",
+      "store_dns": true
+    },
+    "clash_api": {
+      "external_controller": "0.0.0.0:9095",
+      "external_ui": "/etc/sing-box/ui",
+      "secret": "passwd",
+      "default_mode": "Rule"
+    }
+  },
+  "http_clients": [
+    {
+      "tag": "📥 Download",
+      "detour": "🎯 Node"
+    }
+  ],
   "dns": {
     "servers": [
       {
@@ -144,16 +162,14 @@
         "172.19.0.1/30",
         "fdfe:dcba:9876::1/126"
       ],
-      "mtu": 9000,
       "auto_route": true,
-      "strict_route": true
+      "auto_redirect": true
     },
     {
       "tag": "mixed-in",
       "type": "mixed",
-      "listen": "127.0.0.1",
-      "listen_port": 7890,
-      "set_system_proxy": false
+      "listen": "0.0.0.0",
+      "listen_port": 7890
     }
   ],
   "route": {
@@ -259,6 +275,48 @@
       {
         "clash_mode": "Global",
         "outbound": "🌐 Proxy"
+      },
+      {
+        "domain_regex": "^relay-[\\w-]+\\.tktn\\.be$",
+        "outbound": "🏢 Pure"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "domain_suffix": [
+              "agkn.com",
+              "cohere.com",
+              "crashlytics.com",
+              "inmobi.com",
+              "inner-active.mobi",
+              "ip-api.com",
+              "kochava.com",
+              "mobilefuse.com",
+              "talkatone.com"
+            ]
+          },
+          {
+            "ip_cidr": [
+              "205.164.56.0/24",
+              "216.172.154.0/24",
+              "50.117.27.0/24",
+              "63.251.124.0/24",
+              "69.46.75.0/24"
+            ]
+          }
+        ],
+        "outbound": "🟢 Direct"
+      },
+      {
+        "domain_suffix": [
+          "tktn.at",
+          "tktn.be",
+          "vm.talkatone.com",
+          "tenor.com"
+        ],
+        "outbound": "🎯 Node"
       },
       {
         "rule_set": "geosite-private",
@@ -558,12 +616,6 @@
     {
       "tag": "🎯 Direct",
       "type": "direct"
-    }
-  ],
-  "http_clients": [
-    {
-      "tag": "📥 Download",
-      "detour": "🎯 Direct"
     }
   ]
 }

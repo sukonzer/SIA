@@ -109,6 +109,8 @@ rules:
   - RULE-SET,apple_domain,🟢 直连
   - RULE-SET,bilibili_domain,🟢 直连
   - RULE-SET,microsoft_domain,🟢 直连
+  - RULE-SET,meta_domain,🇺🇲 美国
+  - RULE-SET,discord_domain,🇩🇪 德国
 
   # 业务分流- ip
   - RULE-SET,ai_ip,🤖 AI,no-resolve
@@ -158,6 +160,8 @@ rule-providers:
   tiktok_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs" }
   talkatone_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/talkatone.mrs"}
   x_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}
+  meta_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/meta.mrs" }
+  discord_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/discord.mrs" }
 
   google_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs" }
   ai_ip: { <<: *ip, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/ai.mrs" }

@@ -206,6 +206,16 @@
       ]
     },
     {
+      "tag": "🇩🇪 Germany",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "include": [
+        "🇩🇪|DE|de|德国|德|Germany"
+      ]
+    },
+    {
       "tag": "🏢 Pure",
       "type": "selector",
       "outbounds": [
@@ -425,6 +435,14 @@
         "outbound": "🎯 Node"
       },
       {
+        "rule_set": "geosite-meta",
+        "outbound": "🇺🇲 USA"
+      },
+      {
+        "rule_set": "geosite-discord",
+        "outbound": "🇩🇪 Germany"
+      },
+      {
         "rule_set": "geosite-binance",
         "outbound": "🎯 Node"
       },
@@ -476,6 +494,8 @@
           "geosite-tiktok",
           "geosite-netflix",
           "geosite-paypal",
+          "geosite-meta",
+          "geosite-discord",
           "geosite-binance",
           "geosite-category-cryptocurrency",
           "geosite-steam@cn",

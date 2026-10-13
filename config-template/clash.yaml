@@ -26,12 +26,15 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-range6: fc00::/18
   fake-ip-filter-mode: rule
-  # real-ip 仲裁统一交给 GEOSITE,cn：vendor 规则集不可信 —— v2fly 的 microsoft 分类
-  # include 了整个 github，会把走代理的域名也判成 real-ip，使其经国内 DNS 解析、
-  # 被污染有机可乘（2026-10-13 gist.github.com ERR_CONNECTION_CLOSED 即因此引起）。
+  # real-ip 只判给 CN 域名：vendor 全量规则集不可信 —— v2fly 的 microsoft 分类
+  # include 了整个 github，曾把 gist.github.com 判成 real-ip 使其经国内 DNS 解析
+  # 被污染（2026-10-13 ERR_CONNECTION_CLOSED）。此处用各 vendor 的 @cn 子集
+  # （github 分类零 @cn 条目，不会被含入）。
   fake-ip-filter:
     - "GEOSITE,private,real-ip"
+    - "RULE-SET,apple_cn,real-ip"
     - "RULE-SET,bilibili_domain,real-ip"
+    - "RULE-SET,microsoft_cn,real-ip"
     - "GEOSITE,gfw,fake-ip"
     - "GEOSITE,cn,real-ip"
     - "MATCH,fake-ip"
@@ -158,6 +161,8 @@ rule-providers:
   github_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
   apple_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs" }
   microsoft_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs" }
+  apple_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs" }
+  microsoft_cn: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.mrs" }
   tiktok_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs" }
   talkatone_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/talkatone.mrs"}
   x_domain: { <<: *domain, url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}

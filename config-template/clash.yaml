@@ -26,11 +26,12 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-range6: fc00::/18
   fake-ip-filter-mode: rule
+  # real-ip 仲裁统一交给 GEOSITE,cn：vendor 规则集不可信 —— v2fly 的 microsoft 分类
+  # include 了整个 github，会把走代理的域名也判成 real-ip，使其经国内 DNS 解析、
+  # 被污染有机可乘（2026-10-13 gist.github.com ERR_CONNECTION_CLOSED 即因此引起）。
   fake-ip-filter:
     - "GEOSITE,private,real-ip"
-    - "RULE-SET,apple_domain,real-ip"
     - "RULE-SET,bilibili_domain,real-ip"
-    - "RULE-SET,microsoft_domain,real-ip"
     - "GEOSITE,gfw,fake-ip"
     - "GEOSITE,cn,real-ip"
     - "MATCH,fake-ip"

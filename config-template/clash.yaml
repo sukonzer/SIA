@@ -135,7 +135,7 @@ rules:
   - IP-CIDR,50.117.27.0/24,🟢 直连,no-resolve
   - IP-CIDR,63.251.124.0/24,🟢 直连,no-resolve
   - IP-CIDR,69.46.75.0/24,🟢 直连,no-resolve
-  - OR,((DOMAIN-SUFFIX,ping0.cc),(DOMAIN-SUFFIX,ippure.com),(DOMAIN-SUFFIX,ip.sb),(DOMAIN-SUFFIX,iplark.com)),🧿 其它
+  - OR,((DOMAIN-SUFFIX,ping0.cc),(DOMAIN-SUFFIX,ippure.com),(DOMAIN-SUFFIX,ip.sb),(DOMAIN-SUFFIX,iplark.com),(DOMAIN-SUFFIX,123169.xyz),(DOMAIN-SUFFIX,icanhazip.com),(DOMAIN-SUFFIX,ipinfo.io),(DOMAIN-SUFFIX,ipapi.co),(DOMAIN-SUFFIX,999831.xyz)),🧿 其它
   
   # 绕过大陆
   - DOMAIN-SUFFIX,tos-d-cm-hl.snssdk.com,🟢 直连

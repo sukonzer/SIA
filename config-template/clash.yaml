@@ -35,6 +35,8 @@ dns:
     - "RULE-SET,apple_cn,real-ip"
     - "RULE-SET,bilibili_domain,real-ip"
     - "RULE-SET,microsoft_cn,real-ip"
+    - "DOMAIN-SUFFIX,googleusercontent.com,real-ip"
+    - "DOMAIN,clients2.google.com,real-ip"
     - "GEOSITE,gfw,fake-ip"
     - "GEOSITE,cn,real-ip"
     - "MATCH,fake-ip"
@@ -54,6 +56,13 @@ dns:
       - 10.0.0.0/8
       - 172.16.0.0/12
       - 192.168.0.0/16
+  nameserver-policy:
+    "+.googleusercontent.com":
+      - "https://8.8.8.8/dns-query#🚀 节点选择"
+      - "https://1.1.1.1/dns-query#🚀 节点选择"
+    "clients2.google.com":
+      - "https://8.8.8.8/dns-query#🚀 节点选择"
+      - "https://1.1.1.1/dns-query#🚀 节点选择"
 
 proxies:
   - name: "🟢 直连"

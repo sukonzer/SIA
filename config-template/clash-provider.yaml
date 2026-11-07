@@ -98,6 +98,8 @@ proxy-groups:
   - {name: 📲 Telegram, <<: *quick }
   - {name: 🎥 NETFLIX, <<: *quick }
   - {name: 💶 PayPal, <<: *quick }
+  - {name: ♾️ Meta, type: select, proxies: [🇯🇵 日本, 🇺🇲 美国, 🇩🇪 德国, 🌐 全部节点]}
+  - {name: 💬 Discord, type: select, proxies: [🇩🇪 德国, 🇺🇲 美国, 🇯🇵 日本, 🌐 全部节点]}
   #地区
   - {name: 🇭🇰 香港, type: select, include-all: true, filter: "港|HK|hk|Hong Kong|HongKong|hongkong"}
   - {name: 🇹🇼 台湾, type: select, include-all: true, filter: "台|新北|彰化|TW|Taiwan"}
@@ -135,8 +137,8 @@ rules:
   - RULE-SET,apple_cn,🟢 直连
   - RULE-SET,bilibili_domain,🟢 直连
   - RULE-SET,microsoft_cn,🟢 直连
-  - RULE-SET,meta_domain,🇺🇲 美国
-  - RULE-SET,discord_domain,🇩🇪 德国
+  - RULE-SET,meta_domain,♾️ Meta
+  - RULE-SET,discord_domain,💬 Discord
 
   # 业务分流- ip
   - RULE-SET,ai_ip,🤖 AI,no-resolve

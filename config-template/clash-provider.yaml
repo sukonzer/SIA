@@ -124,6 +124,8 @@ rules:
   - RULE-SET,category_ads_all,REJECT
   - GEOSITE,private,🟢 直连
   # 业务分流- domain
+  - RULE-SET,meta_domain,♾️ Meta
+  - RULE-SET,discord_domain,💬 Discord
   - RULE-SET,ai_domain,🤖 AI
   - RULE-SET,youtube_domain,📹 YouTube
   - RULE-SET,google_domain,🍀 Google
@@ -137,8 +139,6 @@ rules:
   - RULE-SET,apple_cn,🟢 直连
   - RULE-SET,bilibili_domain,🟢 直连
   - RULE-SET,microsoft_cn,🟢 直连
-  - RULE-SET,meta_domain,♾️ Meta
-  - RULE-SET,discord_domain,💬 Discord
 
   # 业务分流- ip
   - RULE-SET,ai_ip,🤖 AI,no-resolve

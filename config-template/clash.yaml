@@ -89,6 +89,7 @@ proxy-groups:
   - {name: 💶 PayPal, <<: *quick }
   - {name: ♾️ Meta, type: select, proxies: [🇯🇵 日本, 🇺🇲 美国, 🇩🇪 德国, 🌐 全部节点]}
   - {name: 💬 Discord, type: select, proxies: [🇩🇪 德国, 🇺🇲 美国, 🇯🇵 日本, 🌐 全部节点]}
+  - {name: ct8, type: select, proxies: [🇵🇱 波兰, 🌐 全部节点]}
   #地区
   - {name: 🇭🇰 香港, type: select, include-all: true, filter: "港|HK|hk|Hong Kong|HongKong|hongkong"}
   - {name: 🇹🇼 台湾, type: select, include-all: true, filter: "台|新北|彰化|TW|Taiwan"}
@@ -98,13 +99,14 @@ proxy-groups:
   - {name: 🇺🇲 美国, type: select, include-all: true, filter: "美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States"}
   - {name: 🇬🇧 英国, type: select, include-all: true, filter: "GB|英国|Great Britain" }
   - {name: 🇩🇪 德国, type: select, include-all: true, filter: "DE|德国|Germany" }
+  - {name: 🇵🇱 波兰, type: select, include-all: true, filter: "PL|波兰|Poland" }
   - {name: ☢ 负载均衡-散列, type: load-balance, strategy: consistent-hashing, interval:180, <<: *best, exclude-filter: "🏡|🟢|原生地址|官网|到期|重置|^USW-oregon|^cf-|^US-cogent" }
   - {name: ☢ 负载均衡-轮询, type: load-balance, strategy: round-robin, interval:180, <<: *best, exclude-filter: "🏡|🟢|原生地址|官网|到期|重置|^USW-oregon|^cf-|^US-cogent" }
   - {name: 🔗 落地, type: select, proxies: [🏡|🏢, 🇺🇲 美国, 🇩🇪 德国, 🇯🇵 日本, 🇭🇰 香港]}
   - {name: 🏡|🏢, type: select, include-all: true, filter: "🏡|🏢"}
   - {name: 🧿 其它, type: select, proxies: [🌐 全部节点, ♻️ 自动选择, 🔗 落地]}
   - {name: ♻️ 自动选择, <<: *best, exclude-filter: "🏡|🟢|原生地址|官网|到期|重置|剩余|流量" }
-  - {name: 🚀 节点选择, type: select, proxies: [🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, ♻️ 自动选择, 🧿 其它, 🟢 直连]}
+  - {name: 🚀 节点选择, type: select, proxies: [🌐 全部节点, 🇭🇰 香港, 🇹🇼 台湾, 🇯🇵 日本, 🇸🇬 新加坡, 🇰🇷 韩国, 🇺🇲 美国, 🇩🇪 德国, 🇬🇧 英国, 🇵🇱 波兰, ♻️ 自动选择, 🧿 其它, 🟢 直连]}
 
 
 # 规则
@@ -124,6 +126,7 @@ rules:
   - RULE-SET,telegram_domain,📲 Telegram
   - RULE-SET,netflix_domain,🎥 NETFLIX
   - RULE-SET,paypal_domain,💶 PayPal
+  - DOMAIN-SUFFIX,ct8.pl,ct8
   # apple/microsoft 用 @cn 子集直连 —— 全量表会含入非 CN 域名（如 microsoft 表含 github）
   - RULE-SET,apple_cn,🟢 直连
   - RULE-SET,bilibili_domain,🟢 直连
